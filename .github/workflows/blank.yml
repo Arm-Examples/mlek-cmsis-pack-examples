@@ -13,17 +13,22 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
+  update-main:
+    name: Sync main branch
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master
-    - name: Download artifact from build
-      uses: bettermarks/action-artifact-download@0.3.0
-      with:
-        repo: review.mlplatform.org/ml/ethos-u/ml-embedded-evaluation-kit
-        token: ${{ secrets.GITHUB_TOKEN }}
-        artifact_name: CMakePresets.json
-        rename: new-CMakePresets.json    
-        wait_seconds: 60 
+
+      - uses: jfrog/setup-jfrog-cli@v2
+        env:
+          # JFrog platform url (for example: https://acme.jfrog.io) 
+          JF_URL: ${{ secrets.JF_URL }}
+
+          # Basic authentication credentials
+          JF_USER: ${{ secrets.JF_USER }}
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
+
+      - name: Download zip from Artifactory
+      - run: |
+          jf rt ping
