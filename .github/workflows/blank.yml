@@ -19,13 +19,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: jfrog/setup-jfrog-cli@v2
-        env:
-          # JFrog platform url (for example: https://acme.jfrog.io) 
-          JF_URL: ${{ secrets.JF_URL }}
+      - uses: actions/checkout@v2
 
-          # Basic authentication credentials
-          JF_USER: ${{ secrets.JF_USER }}
-          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
-      - run: |
-          jf rt ping
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Run the Artifactory proxy
+        run: |
+          docker pull 104059736540.dkr.ecr.us-west-2.amazonaws.com/otg/artifactory-proxy
+          docker run -d -p 8080:80 104059736540.dkr.ecr.us-west-2.amazonaws.com/otg/artifactory-proxy
+          sleep 10
+      - name: Download zip from Artifactory
+        run: |
+          curl -H "X-JFrog-Art-Api:$ARTIFACTORY_TOKEN" localhost:8080/artifactory/cmsis-reference-designs/$ARTIFACTORY_PATH/latest.zip --output /tmp/downloaded_example.zip
+        env:
+          ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+          ARTIFACTORY_PATH: ${{ secrets.ARTIFACTORY_PATH }}
+          ARTIFACTORY_VERSION: latest
+
+      - name: Clean repo files
+        run: |
+          git ls-files | grep -v .github | xargs --no-run-if-empty rm
+      - name: Extract zip
+        run: |
+          7z x /tmp/downloaded_example.zip
+          
+          
