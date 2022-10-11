@@ -26,8 +26,6 @@ jobs:
 
           # Basic authentication credentials
           JF_USER: ${{ secrets.JF_USER }}
-          JF_PASSWORD: ${{ secrets.JF_PASSWORD }}
-
-      - name: Download zip from Artifactory
+          JF_PASSWORD: ${{ secrets.JF_PASSWORD }
       - run: |
           jf rt ping
