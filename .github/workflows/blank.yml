@@ -13,7 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add from git
         run: |
           cd /tmp/
