@@ -17,8 +17,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Add from git
         run: |
-          cd /tmp/
-          git clone https://github.com/ARM-software/ML-examples.git
+          git --version
+          git status
           cp -r /tmp/ML-examples/cmsis-pack-examples .
           git commit -m "auto-sync-test"
           git push
