@@ -18,6 +18,6 @@ jobs:
         run: |
           cd /tmp/
           git clone https://github.com/ARM-software/ML-examples
-          cp /tmp/ML-examples/cmsis-pack-examples .
-          git commit -m "uto-sync-test"
+          cp -r /tmp/ML-examples/cmsis-pack-examples .
+          git commit -m "auto-sync-test"
           git push
