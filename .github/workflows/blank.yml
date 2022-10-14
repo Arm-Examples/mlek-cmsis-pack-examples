@@ -18,7 +18,7 @@ jobs:
       - name: Add from git
         run: |
           cd /tmp/
-          gh repo clone ARM-software/ML-examples
+          git clone https://github.com/ARM-software/ML-examples.git
           cp -r /tmp/ML-examples/cmsis-pack-examples .
           git commit -m "auto-sync-test"
           git push
