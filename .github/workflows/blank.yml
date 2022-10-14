@@ -1,17 +1,10 @@
-# This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Sync with Artifactory
 
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+on: 
   workflow_dispatch:
+  schedule:
+    - cron: '7 15 * * *'
 
 jobs:
   update-main:
@@ -21,35 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-west-2
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Run the Artifactory proxy
+      - name: Add from git
         run: |
-          docker pull 104059736540.dkr.ecr.us-west-2.amazonaws.com/otg/artifactory-proxy
-          docker run -d -p 8080:80 104059736540.dkr.ecr.us-west-2.amazonaws.com/otg/artifactory-proxy
-          sleep 10
-      - name: Download zip from Artifactory
-        run: |
-          curl -H "X-JFrog-Art-Api:$ARTIFACTORY_TOKEN" localhost:8080/artifactory/cmsis-reference-designs/$ARTIFACTORY_PATH/latest.zip --output /tmp/downloaded_example.zip
-        env:
-          ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
-          ARTIFACTORY_PATH: ${{ secrets.ARTIFACTORY_PATH }}
-          ARTIFACTORY_VERSION: latest
-
-      - name: Clean repo files
-        run: |
-          git ls-files | grep -v .github | xargs --no-run-if-empty rm
-      - name: Extract zip
-        run: |
-          7z x /tmp/downloaded_example.zip
-          
-          
+          cd /tmp/
+          git clone https://github.com/ARM-software/ML-examples
+          cp /tmp/ML-examples/cmsis-pack-examples .
+          git commit -m "uto-sync-test"
+          git push
