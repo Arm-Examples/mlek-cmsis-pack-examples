@@ -18,7 +18,7 @@
 
 default:
   # Note that we need AC6@6.18 or higher to compile for Corstone-310 target.
-  compiler: GCC
+  compiler: AC6
 
   misc:
     - for-compiler: AC6
@@ -38,27 +38,3 @@ default:
         - --info=sizes,totals,unused,compression,inline,summarysizes
         - --list='diagnostics.map'
         - --diag_suppress=L6439W,L6314W,L9931W
-    - for-compiler: GCC
-      CPP: 
-        - -std=c++11
-        - -fno-rtti
-        - -fno-threadsafe-statics
-      C:
-        - -std=gnu11
-      C-CPP:
-        - -mlittle-endian
-        - -mthumb
-        - -MD
-        - -Wswitch
-        - -Wvla
-        - -fmessage-length=0
-        - -fdata-sections
-        - -ffunction-sections
-        - -fno-exceptions
-        - -fno-unwind-tables
-        - -fomit-frame-pointer
-        - -funsigned-char
-      Link:
-        - --specs=nano.specs
-        - --specs=rdimon.specs
-        - -Wl,--gc-sections
