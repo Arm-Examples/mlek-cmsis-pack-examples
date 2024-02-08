@@ -67,8 +67,14 @@ layer:
     - component: AlifSemiconductor::Device:Startup
     - component: ARM::CMSIS Driver:USART
     - component: ARM::CMSIS Driver:USART:Custom
-    - component: AlifSemiconductor::Device:SE Services:SE RunTime services&Source
-    - component: AlifSemiconductor::Device:SE Services:MHU Driver
+    - component: AlifSemiconductor::Device:SE runtime Services:core&Source
+    - component: AlifSemiconductor::Device:SOC Peripherals:MHU
+    - component: AlifSemiconductor::Device:SOC Peripherals:CPI
+    - component: AlifSemiconductor::Device:SOC Peripherals:I2C
+    - component: AlifSemiconductor::Device:SOC Peripherals:MIPI CSI2
+    - component: AlifSemiconductor::Device:SOC Peripherals:MIPI DSI
+    - component: AlifSemiconductor::BSP:External peripherals:ILI9806E LCD panel
+    - component: AlifSemiconductor::BSP:External peripherals:CAMERA Sensor ARX3A0
 
     - component: AlifSemiconductor::Device:SOC Peripherals:DMA
       for-context: +Alif-E7-M55-HE
@@ -79,20 +85,6 @@ layer:
     - component: AlifSemiconductor::Device:SOC Peripherals:I3C
       for-context: +Alif-E7-M55-HP
 
-    - component: AlifSemiconductor::Device:SOC Peripherals:CDC200
+    - component: AlifSemiconductor::Device:SOC Peripherals:CDC
       for-context: +Alif-E7-M55-HP
 
-    - component: AlifSemiconductor::Device:SOC Peripherals:MIPI CSI2
-      for-context: +Alif-E7-M55-HP
-
-    - component: AlifSemiconductor::Device:SOC Peripherals:MIPI DSI
-      for-context: +Alif-E7-M55-HP
-
-    - component: AlifSemiconductor::Device:SOC Peripherals:CAMERA Controller
-      for-context: +Alif-E7-M55-HP
-
-    - component: AlifSemiconductor::BSP:External peripherals:ILI9806E LCD panel
-      for-context: +Alif-E7-M55-HP
-
-    - component: AlifSemiconductor::BSP:External peripherals:CAMERA Sensor ARX3A0
-      for-context: +Alif-E7-M55-HP

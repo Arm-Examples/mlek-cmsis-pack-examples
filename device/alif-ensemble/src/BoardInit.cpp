@@ -25,11 +25,14 @@ extern "C" {
 #include "RTE_Components.h"
 #include "RTE_Device.h"
 #include CMSIS_device_header
-#include "Driver_PINMUX_AND_PINPAD.h"
+#include "Driver_GPIO.h"
+#include "pinconf.h"
 #include "Driver_Common.h"
 #include "ethosu_driver.h"
 #include "uart_stdout.h"
 #include <stdio.h>
+
+#define LOCAL_PERIPHERAL_BASE     (0x40000000UL)
 
 static struct ethosu_driver npuDriver;
 static void npu_irq_handler(void)
@@ -58,8 +61,13 @@ bool NpuInit()
         return false;
     }
 
-    NVIC_SetVector(NPU_IRQ, (uint32_t) &npu_irq_handler);
-    NVIC_EnableIRQ(NPU_IRQ);
+#if defined (M55_HP)
+    NVIC_SetVector(NPU_HP_IRQ_IRQn, (uint32_t) &npu_irq_handler);
+    NVIC_EnableIRQ(NPU_HP_IRQ_IRQn);
+#elif defined(M55_HE)
+    NVIC_SetVector(NPU_HE_IRQ_IRQn, (uint32_t) &npu_irq_handler);
+    NVIC_EnableIRQ(NPU_HE_IRQ_IRQn);
+#endif
 
     return true;
 }
@@ -73,7 +81,7 @@ static void CpuCacheEnable(void)
 {
     /* Enable I-Cache */
     SCB_EnableICache();
-
+ 
     /* Enable D-Cache */
     SCB_EnableDCache();
 }
@@ -82,42 +90,27 @@ static void CpuCacheEnable(void)
 
 static int I3CPinsInit(void)
 {
-    /* Configure GPIO Pin : P3_8 as I3C_SDA_B */
-    int ret = PINMUX_Config(PORT_NUMBER_3, PIN_NUMBER_8, PINMUX_ALTERNATE_FUNCTION_3);
-    if(ret != ARM_DRIVER_OK) {
-        return ret;
-    }
-
-    /* Configure GPIO Pin : P3_9 as I3C_SCL_B */
-    ret = PINMUX_Config(PORT_NUMBER_3, PIN_NUMBER_9, PINMUX_ALTERNATE_FUNCTION_4);
-    if(ret != ARM_DRIVER_OK) {
-        return ret;
-    }
-
-    /* Pin-Pad P3_8 as I3C_SDA_B
+    /* Configure GPIO Pin : P1_2 as I3C_SDA_B */
+    /* Pin-Pad P1_2 as I3C_SDA_B
      * Pad function: PAD_FUNCTION_READ_ENABLE |
      *  PAD_FUNCTION_DRIVER_DISABLE_STATE_WITH_PULL_UP |
      *  PAD_FUNCTION_DRIVER_OPEN_DRAIN
      */
-    ret = PINPAD_Config(PORT_NUMBER_3, PIN_NUMBER_8, PAD_FUNCTION_READ_ENABLE |
-            PAD_FUNCTION_DRIVER_DISABLE_STATE_WITH_PULL_UP |
-            PAD_FUNCTION_DRIVER_OPEN_DRAIN);
+    int ret = pinconf_set(PORT_1, PIN_2, PINMUX_ALTERNATE_FUNCTION_3, PADCTRL_READ_ENABLE | PADCTRL_DRIVER_DISABLED_PULL_UP | PADCTRL_DRIVER_OPEN_DRAIN);
     if(ret != ARM_DRIVER_OK) {
         return ret;
     }
 
-    /* Pin-Pad P3_9 as I3C_SCL_B
+    /* Configure GPIO Pin : P1_3 as I3C_SCL_B */       
+    /* Pin-Pad P1_3 as I3C_SCL_B
      * Pad function: PAD_FUNCTION_READ_ENABLE |
      *  PAD_FUNCTION_DRIVER_DISABLE_STATE_WITH_PULL_UP |
      *  PAD_FUNCTION_DRIVER_OPEN_DRAIN
      */
-    ret = PINPAD_Config(PORT_NUMBER_3, PIN_NUMBER_9,PAD_FUNCTION_READ_ENABLE |
-            PAD_FUNCTION_DRIVER_DISABLE_STATE_WITH_PULL_UP |
-            PAD_FUNCTION_DRIVER_OPEN_DRAIN);
+    ret = pinconf_set(PORT_1, PIN_3, PINMUX_ALTERNATE_FUNCTION_3, PADCTRL_READ_ENABLE | PADCTRL_DRIVER_DISABLED_PULL_UP | PADCTRL_DRIVER_OPEN_DRAIN);
     if(ret != ARM_DRIVER_OK) {
         return ret;
     }
-
     return 0;
 }
 

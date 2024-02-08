@@ -20,14 +20,14 @@
 extern "C" {
 #endif
 
-#include "gpio.h"
+#include "../src/gpio.h"
 
 #include "RTE_Components.h"
 #include "RTE_Device.h"
 #include CMSIS_device_header
 
 #include "Driver_GPIO.h"
-#include "Driver_PINMUX_AND_PINPAD.h"
+#include "pinconf.h"
 #include "log_macros.h"
 
 extern ARM_DRIVER_GPIO Driver_GPIO1;

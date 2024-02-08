@@ -38,7 +38,7 @@ solution:
     - pack: NXP::FRDM-K64F_BSP@14.0.0
     - pack: NXP::MK64F12_DFP@14.0.0
     - pack: Keil::STM32F7xx_DFP@2.15.1
-    - pack: AlifSemiconductor::Ensemble@0.5.2
+    - pack: AlifSemiconductor::Ensemble@1.0.0
 
   build-types:
     - type: Debug
@@ -77,13 +77,13 @@ solution:
       device: STM32F746NGHx
 
     - type: Alif-E7-M55-HP
-      device: AE722F80F55D5TE:M55_HP
+      device: AE722F80F55D5LS:M55_HP
       define:
         - ETHOSU55
         - USART_DRV_NUM: 2
 
     - type: Alif-E7-M55-HE
-      device: AE722F80F55D5TE:M55_HE
+      device: AE722F80F55D5LS:M55_HE
       define:
         - ETHOSU55
         - USART_DRV_NUM: 4

@@ -20,13 +20,14 @@
 
 #if defined (__cplusplus)
 extern "C" {
-    #include "Camera_Common.h"
+// #include "Camera_Common.h"
 }
 #endif
 #include <cstdint>
 
 #define CAMERA_FRAME_WIDTH          560
 #define CAMERA_FRAME_HEIGHT         560
+#define CAMERA_RESOLUTION_560x560   0
 #define CAMERA_RESOLUTION           CAMERA_RESOLUTION_560x560
 #define CAMERA_IMAGE_RAW_SIZE       (CAMERA_FRAME_WIDTH * CAMERA_FRAME_HEIGHT)
 
@@ -48,7 +49,7 @@ enum class ColourFilter {
  * @param raw_image Pointer to the raw image that can be populated.
  * @return int: 0 if successful, error code otherwise
  */
-int CameraCaptureInit(ARM_CAMERA_RESOLUTION resolution);
+int CameraCaptureInit(uint8_t* resolution);
 
 /**
  * @brief Starts the camera capture (does not wait for it to finish)

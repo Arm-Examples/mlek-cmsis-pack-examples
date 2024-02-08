@@ -21,6 +21,7 @@
 #include "log_macros.h"
 
 #include <inttypes.h>
+#include "gpio.h"
 
 namespace arm {
 namespace app {
