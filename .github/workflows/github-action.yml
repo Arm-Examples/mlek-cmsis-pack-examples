@@ -44,7 +44,7 @@ jobs:
         run: cbuild mlek.csolution.yml --update-rte --packs --schema --context kws.Debug+Alif-E7-M55-HP --toolchain ${{ matrix.compiler }}
 
       - name: Build KWS debug target Alif-E7-M55-HE
-        if: always() && matrix.compiler = 'AC6'
+        if: always() && matrix.compiler == 'AC6'
         run: cbuild mlek.csolution.yml --update-rte --packs --schema --context kws.Debug+Alif-E7-M55-HE --toolchain ${{ matrix.compiler }}
 
       - name: Deactivate Arm tool license
