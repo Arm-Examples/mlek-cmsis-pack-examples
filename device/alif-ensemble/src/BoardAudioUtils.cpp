@@ -79,11 +79,6 @@ static int32_t ConfigureI2SPinMuxPinPad()
     int32_t status = 0;
 
     // Configure P8_1.I2S2_SDI_A
-    // // status |= PINMUX_Config(PORT_NUMBER_2, PIN_NUMBER_1, PINMUX_ALTERNATE_FUNCTION_3);
-    // status |=
-    //     PINPAD_Config(PORT_NUMBER_2,
-    //                   PIN_NUMBER_1,
-    //                   PAD_FUNCTION_DRIVER_DISABLE_STATE_WITH_PULL_DOWN | PAD_FUNCTION_READ_ENABLE);
     pinconf_set(PORT_8, PIN_1, PINMUX_ALTERNATE_FUNCTION_1, PADCTRL_READ_ENABLE | PADCTRL_DRIVER_DISABLED_PULL_UP);
 
     /* Configure P8_3.I2S2_SCLK_A */
