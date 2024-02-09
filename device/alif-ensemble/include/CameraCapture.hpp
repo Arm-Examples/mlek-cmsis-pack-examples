@@ -18,11 +18,6 @@
 #ifndef CAMERA_CAPTURE_HPP
 #define CAMERA_CAPTURE_HPP
 
-#if defined (__cplusplus)
-extern "C" {
-// #include "Camera_Common.h"
-}
-#endif
 #include <cstdint>
 
 #define CAMERA_FRAME_WIDTH          560

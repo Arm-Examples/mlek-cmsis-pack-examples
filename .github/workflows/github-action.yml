@@ -9,13 +9,13 @@ on:
     - cron: '30 22 28 * 0'
 
 jobs:
-  build-alif-targets:    
-    name: Build and Run Alif Devices
+  build-target:    
+    name: Build target
 
     strategy:
       fail-fast: true
       matrix:
-        compiler: [AC6, GCC, Clang]
+        context: [object-detection.Debug+Alif-E7-M55-HP, object-detection.Debug+AVH-SSE-300-U55, kws.Debug+Alif-E7-M55-HE, kws.Debug+AVH-SSE-310-U65, kws.Debug+FRDM-K64F, kws.Debug+STM32F746-DISCO]
 
     runs-on: ubuntu-latest
 
@@ -39,13 +39,8 @@ jobs:
             armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
           fi
 
-      - name: Build object detection debug target for Alif-E7-M55-HP
-        if: always() && matrix.compiler == 'AC6'
-        run: cbuild mlek.csolution.yml --update-rte --packs --schema --context kws.Debug+Alif-E7-M55-HP --toolchain ${{ matrix.compiler }}
-
-      - name: Build KWS debug target Alif-E7-M55-HE
-        if: always() && matrix.compiler == 'AC6'
-        run: cbuild mlek.csolution.yml --update-rte --packs --schema --context kws.Debug+Alif-E7-M55-HE --toolchain ${{ matrix.compiler }}
+      - name: Build target
+        run: cbuild mlek.csolution.yml --update-rte --packs --schema --context ${{ matrix.context }}
 
       - name: Deactivate Arm tool license
         if: always()
