@@ -31,20 +31,20 @@
 #define BLUE_WITH_CCM(r, g, b)  \
     CLAMP_UINT8(((int)b * 3) - (((int)r * 5) / 36) - (((int)g << 1) / 3))
 
-#if defined(__cplusplus)
+#ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 #include "RTE_Components.h"
 #include CMSIS_device_header
-#include "Driver_Camera_Controller.h"
+#include "Driver_CPI.h"
+#include "system_utils.h"
 #include "Driver_Common.h"
 #include "Driver_GPIO.h"
-#include "Driver_PINMUX_AND_PINPAD.h"
 #include "log_macros.h"
 
 extern ARM_DRIVER_GPIO Driver_GPIO1;
-extern ARM_DRIVER_CAMERA_CONTROLLER Driver_CAMERA0;
+extern ARM_DRIVER_CPI Driver_CAMERA0; // causing problems
 
 static struct arm_camera_status {
     bool frame_complete: 1;
@@ -53,24 +53,25 @@ static struct arm_camera_status {
 
 static void camera_event_cb(uint32_t event)
 {
-    if(event & ARM_CAMERA_CONTROLLER_EVENT_CAMERA_FRAME_VSYNC_DETECTED) {
+    
+    if(event & ARM_CPI_EVENT_CAMERA_FRAME_VSYNC_DETECTED) {
         camera_status.frame_complete = true;
     }
 
-    if(event & ARM_CAMERA_CONTROLLER_EVENT_ERR_CAMERA_FIFO_OVERRUN) {
+    if(event & ARM_CPI_EVENT_ERR_CAMERA_INPUT_FIFO_OVERRUN) {
         camera_status.camera_error = true;
     }
 
-    if(event & ARM_CAMERA_CONTROLLER_EVENT_ERR_CAMERA_FIFO_UNDERRUN) {
+    if(event & ARM_CPI_EVENT_ERR_CAMERA_OUTPUT_FIFO_OVERRUN) {
         camera_status.camera_error = true;
     }
 
-    if(event & ARM_CAMERA_CONTROLLER_EVENT_MIPI_CSI2_ERROR) {
+    if(event & ARM_CPI_EVENT_MIPI_CSI2_ERROR) {
         camera_status.camera_error = true;
     }
 }
 
-#if defined(__cplusplus)
+#ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
@@ -78,38 +79,38 @@ __attribute__((noreturn)) static void CameraErrorLoop(const char* errorStr)
 {
     printf_err("%s\n", errorStr);
     while(true) {
-        Driver_GPIO1.SetValue(PIN_NUMBER_14, GPIO_PIN_OUTPUT_STATE_LOW);
-        PMU_delay_loop_us(300000);
-        Driver_GPIO1.SetValue(PIN_NUMBER_14, GPIO_PIN_OUTPUT_STATE_HIGH);
-        PMU_delay_loop_us(300000);
+        Driver_GPIO1.SetValue(1, GPIO_PIN_OUTPUT_STATE_LOW);
+        sys_busy_loop_us(300000);
+        Driver_GPIO1.SetValue(1, GPIO_PIN_OUTPUT_STATE_HIGH);
+        sys_busy_loop_us(300000);
     }
 }
 
-int arm::app::CameraCaptureInit(ARM_CAMERA_RESOLUTION resolution)
+int arm::app::CameraCaptureInit(uint8_t* resolution)
 {
-    if (0 != Driver_CAMERA0.Initialize(resolution, camera_event_cb)) {
-        CameraErrorLoop("Camera initialisation failed.\n");
-    }
+    // if (0 != Driver_CAMERA0.Initialize(camera_event_cb)) {
+    //     CameraErrorLoop("Camera initialisation failed.\n");
+    // }
 
-    if (0 != Driver_CAMERA0.PowerControl(ARM_POWER_FULL)) {
-        CameraErrorLoop("Camera power up failed.\n");
-    }
+    // if (0 != Driver_CAMERA0.PowerControl(ARM_POWER_FULL)) {
+    //     CameraErrorLoop("Camera power up failed.\n");
+    // }
 
-    if (0 != Driver_CAMERA0.Control(CAMERA_SENSOR_CONFIGURE, resolution)) {
-        CameraErrorLoop("Camera configuration failed.\n");
-    }
+    // if (0 != Driver_CAMERA0.Control(CPI_CAMERA_SENSOR_CONFIGURE, 0)) {
+    //     CameraErrorLoop("Camera configuration failed.\n");
+    // }
 
     info("Camera initialised.\n");
-    Driver_GPIO1.SetValue(PIN_NUMBER_14, GPIO_PIN_OUTPUT_STATE_HIGH);
+    // Driver_GPIO1.SetValue(PIN_NUMBER_14, GPIO_PIN_OUTPUT_STATE_HIGH);
     return 0;
 }
 
 static inline void CameraStatusReset()
 {
-    NVIC_DisableIRQ((IRQn_Type) CAMERA0_IRQ);
+    NVIC_DisableIRQ((IRQn_Type) CAM_IRQ_IRQn);
     camera_status.frame_complete = false;
     camera_status.camera_error = false;
-    NVIC_EnableIRQ((IRQn_Type) CAMERA0_IRQ);
+    NVIC_EnableIRQ((IRQn_Type) CAM_IRQ_IRQn);
 }
 
 int arm::app::CameraCaptureStart(uint8_t* rawImage)
@@ -118,7 +119,7 @@ int arm::app::CameraCaptureStart(uint8_t* rawImage)
 
     /* NOTE: This is a blocking call at the moment; doesn't need to be.
      *       It slows down the whole pipeline considerably. */
-    Driver_CAMERA0.CaptureFrame(rawImage);
+    // Driver_CAMERA0.CaptureFrame(rawImage);
     return 0;
 }
 
