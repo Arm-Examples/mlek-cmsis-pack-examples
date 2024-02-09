@@ -44,7 +44,7 @@ extern "C" {
 #include "log_macros.h"
 
 extern ARM_DRIVER_GPIO Driver_GPIO1;
-extern ARM_DRIVER_CPI Driver_CAMERA0; // causing problems
+extern ARM_DRIVER_CPI Driver_CPI;
 
 static struct arm_camera_status {
     bool frame_complete: 1;
@@ -88,17 +88,17 @@ __attribute__((noreturn)) static void CameraErrorLoop(const char* errorStr)
 
 int arm::app::CameraCaptureInit(uint8_t* resolution)
 {
-    // if (0 != Driver_CAMERA0.Initialize(camera_event_cb)) {
-    //     CameraErrorLoop("Camera initialisation failed.\n");
-    // }
+    if (0 != Driver_CPI.Initialize(camera_event_cb)) {
+        CameraErrorLoop("Camera initialisation failed.\n");
+    }
 
-    // if (0 != Driver_CAMERA0.PowerControl(ARM_POWER_FULL)) {
-    //     CameraErrorLoop("Camera power up failed.\n");
-    // }
+    if (0 != Driver_CPI.PowerControl(ARM_POWER_FULL)) {
+        CameraErrorLoop("Camera power up failed.\n");
+    }
 
-    // if (0 != Driver_CAMERA0.Control(CPI_CAMERA_SENSOR_CONFIGURE, 0)) {
-    //     CameraErrorLoop("Camera configuration failed.\n");
-    // }
+    if (0 != Driver_CPI.Control(CPI_CAMERA_SENSOR_CONFIGURE, 0)) {
+        CameraErrorLoop("Camera configuration failed.\n");
+    }
 
     info("Camera initialised.\n");
     // Driver_GPIO1.SetValue(PIN_NUMBER_14, GPIO_PIN_OUTPUT_STATE_HIGH);
@@ -119,7 +119,7 @@ int arm::app::CameraCaptureStart(uint8_t* rawImage)
 
     /* NOTE: This is a blocking call at the moment; doesn't need to be.
      *       It slows down the whole pipeline considerably. */
-    // Driver_CAMERA0.CaptureFrame(rawImage);
+    Driver_CPI.CaptureFrame(rawImage);
     return 0;
 }
 
