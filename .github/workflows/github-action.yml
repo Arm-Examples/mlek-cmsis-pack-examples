@@ -31,13 +31,13 @@ jobs:
         with:
           config: vcpkg-configuration.json
           
-      - name: Activate Arm tool license
-        run: |
-          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
-            armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
-          else
-            armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
-          fi
+      # - name: Activate Arm tool license
+      #   run: |
+      #     if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+      #       armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+      #     else
+      #       armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
+      #     fi
 
       - name: Build object detection debug target for Alif-E7-M55-HP
         if: always() && matrix.compiler == 'AC6'
