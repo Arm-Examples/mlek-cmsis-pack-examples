@@ -50,3 +50,4 @@ jobs:
           else
             armlm deactivate --product KEMDK-COM0
           fi
+          
