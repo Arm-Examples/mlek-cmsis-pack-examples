@@ -26,7 +26,6 @@ extern "C" {
 
 #include "RTE_Components.h"
 #include "RTE_Device.h"
-// #include <Driver_PINMUX_AND_PINPAD.h>
 #include "pinconf.h"
 #include <Driver_SAI.h>
 #include CMSIS_device_header
