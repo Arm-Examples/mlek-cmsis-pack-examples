@@ -31,7 +31,7 @@
 #define BLUE_WITH_CCM(r, g, b)  \
     CLAMP_UINT8(((int)b * 3) - (((int)r * 5) / 36) - (((int)g << 1) / 3))
 
-#if defined (__cplusplus)
+#if defined(__cplusplus)
 extern "C" {
 #endif /* __cplusplus */
 
