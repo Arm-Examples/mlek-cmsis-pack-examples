@@ -24,7 +24,7 @@
 extern "C" {
 #endif // #if defined(__cplusplus)
 
-#include "gpio.h"
+#include "../src/gpio.h"
 
 #if defined(__cplusplus)
 }

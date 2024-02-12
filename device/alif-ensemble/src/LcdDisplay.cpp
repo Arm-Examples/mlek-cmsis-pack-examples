@@ -57,9 +57,9 @@ static void cdc_event_handler(uint32_t event)
 static void clear_display_error(void)
 {
     /* Clear the error. */
-    NVIC_DisableIRQ((IRQn_Type)MIPI_DSI_IRQ);
+    NVIC_DisableIRQ((IRQn_Type)DSI_IRQ_IRQn);
     s_display_error = false;
-    NVIC_EnableIRQ((IRQn_Type)MIPI_DSI_IRQ);
+    NVIC_EnableIRQ((IRQn_Type)DSI_IRQ_IRQn);
 }
 
 #if defined(__cplusplus)

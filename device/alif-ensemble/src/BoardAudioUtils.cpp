@@ -26,7 +26,7 @@ extern "C" {
 
 #include "RTE_Components.h"
 #include "RTE_Device.h"
-#include <Driver_PINMUX_AND_PINPAD.h>
+#include "pinconf.h"
 #include <Driver_SAI.h>
 #include CMSIS_device_header
 
@@ -45,9 +45,9 @@ static volatile audio_capture_state s_cap_state;
 
 static void set_capture_completed(bool val)
 {
-    NVIC_DisableIRQ((IRQn_Type)I2S2_IRQ);
+    NVIC_DisableIRQ((IRQn_Type)I2S2_IRQ_IRQn);
     s_cap_state.capCompleted = val;
-    NVIC_EnableIRQ((IRQn_Type)I2S2_IRQ);
+    NVIC_EnableIRQ((IRQn_Type)I2S2_IRQ_IRQn);
 }
 
 static void set_capture_started(bool val)
@@ -77,21 +77,14 @@ static int32_t ConfigureI2SPinMuxPinPad()
 {
     int32_t status = 0;
 
-    // Configure P2_1.I2S2_SDI_A
-    status |= PINMUX_Config(PORT_NUMBER_2, PIN_NUMBER_1, PINMUX_ALTERNATE_FUNCTION_3);
-    status |=
-        PINPAD_Config(PORT_NUMBER_2,
-                      PIN_NUMBER_1,
-                      PAD_FUNCTION_DRIVER_DISABLE_STATE_WITH_PULL_DOWN | PAD_FUNCTION_READ_ENABLE);
+    // Configure P8_1.I2S2_SDI_A
+    pinconf_set(PORT_8, PIN_1, PINMUX_ALTERNATE_FUNCTION_1, PADCTRL_READ_ENABLE | PADCTRL_DRIVER_DISABLED_PULL_UP);
 
-    /* Configure P2_3.I2S2_SCLK_A */
-    status |= PINMUX_Config(PORT_NUMBER_2, PIN_NUMBER_3, PINMUX_ALTERNATE_FUNCTION_3);
-    status |= PINPAD_Config(PORT_NUMBER_2, PIN_NUMBER_3, PAD_FUNCTION_READ_ENABLE);
+    /* Configure P8_3.I2S2_SCLK_A */
+    pinconf_set(PORT_8, PIN_3, PINMUX_ALTERNATE_FUNCTION_1, PADCTRL_READ_ENABLE);
 
     /* Configure P2_3.I2S2_WS_A */
-    status |= PINMUX_Config(PORT_NUMBER_2, PIN_NUMBER_4, PINMUX_ALTERNATE_FUNCTION_2);
-    status |= PINPAD_Config(PORT_NUMBER_2, PIN_NUMBER_4, PAD_FUNCTION_READ_ENABLE);
-
+    pinconf_set(PORT_8, PIN_4, PINMUX_ALTERNATE_FUNCTION_1, PADCTRL_READ_ENABLE);
     return status;
 }
 

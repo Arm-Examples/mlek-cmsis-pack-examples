@@ -1,0 +1,53 @@
+name: Build ML examples
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '30 22 28 * 0'
+
+jobs:
+  build-target:    
+    name: Build target
+
+    strategy:
+      fail-fast: true
+      matrix:
+        context: [object-detection.Debug+Alif-E7-M55-HP, object-detection.Debug+AVH-SSE-300-U55, kws.Debug+Alif-E7-M55-HE, kws.Debug+AVH-SSE-310-U65, kws.Debug+FRDM-K64F, kws.Debug+STM32F746-DISCO]
+
+    runs-on: ubuntu-latest
+
+    env:
+        ARM_UBL_ACTIVATION_CODE: ${{secrets.ARM_UBL_ACTIVATION_CODE}}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup vcpkg environment
+        uses: JonatanAntoni/actions/vcpkg@main
+        with:
+          config: vcpkg-configuration.json
+          
+      - name: Activate Arm tool license
+        run: |
+          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+            armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+          else
+            armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
+          fi
+
+      - name: Build target
+        run: cbuild mlek.csolution.yml --update-rte --packs --schema --context ${{ matrix.context }}
+
+      - name: Deactivate Arm tool license
+        if: always()
+        run: |
+          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+            armlm deactivate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+          else
+            armlm deactivate --product KEMDK-COM0
+          fi
+          
