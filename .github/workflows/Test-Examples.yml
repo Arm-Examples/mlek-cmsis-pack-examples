@@ -39,9 +39,9 @@ jobs:
         if: always()      
         working-directory: ./
         run: |
-          csolution list packs -S mlek.csolution.yml -m > packlist.txt
+          csolution list packs --quiet --missing mlek.csolution.yml > packlist.txt
           cat packlist.txt
-          cpackget add --agree-embedded-license --packs-list-filename --force-reinstall packlist.txt
+          cpackget add --agree-embedded-license --force-reinstall --packs-list-filename packlist.txt
 
       - name: Upload packlist.txt as Artifact
         if: always()
