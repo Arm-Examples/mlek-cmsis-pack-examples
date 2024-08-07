@@ -38,6 +38,4 @@ jobs:
       - name: Install missing packs
         working-directory: ./
         run: |
-          csolution list packs -s mlek.csolution.yml -m > packlist.txt
-          cat packlist.txt
-          cpackget add --agree-embedded-license --packs-list-filename packlist.txt
+          csolution list packs -S mlek.csolution.yml -m
