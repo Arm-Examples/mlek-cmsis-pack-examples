@@ -16,11 +16,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout mlek-cmsis-pack-examples root
+      - name: Checkout mlek-cmsis-pack-examples
         uses: actions/checkout@v4
         with:
-          sparse-checkout: |
-            .ci
+          repository: Open-CMSIS-Pack/mlek-cmsis-pack-examples
+          path: ./
 
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
@@ -38,4 +38,6 @@ jobs:
       - name: Install missing packs
         working-directory: ./
         run: |
-          csolution list packs -d -v -S mlek.csolution.yml -m
+          csolution list packs -S mlek.csolution.yml -m > packlist.txt
+          cat packlist.txt
+          cpackget add --agree-embedded-license --packs-list-filename packlist.txt
