@@ -11,9 +11,36 @@ on:
 jobs:
   Test-Examples:                     # Install tools, build 
     strategy:
+
+      matrix:
+        target: [
+          {proj: kws, board: AVH-SSE-300},
+          {proj: kws, board: AVH-SSE-300-U55},
+          {proj: kws, board: AVH-SSE-300-U65},
+          {proj: kws, board: AVH-SSE-310},
+          {proj: kws, board: AVH-SSE-310-U55},
+          {proj: kws, board: AVH-SSE-310-U65},
+          {proj: kws, board: Alif-E7-M55-HE},
+          {proj: kws, board: FRDM-K64F},
+          {proj: kws, board: STM32F746-DISCO},
+
+          {proj: object-detection, board: AVH-SSE-300},
+          {proj: object-detection, board: AVH-SSE-300-U55},
+          {proj: object-detection, board: AVH-SSE-300-U65},
+          {proj: object-detection, board: AVH-SSE-310},
+          {proj: object-detection, board: AVH-SSE-310-U55},
+          {proj: object-detection, board: AVH-SSE-310-U65},
+          {proj: object-detection, board: Alif-E7-M55-HP}
+        ]
+        build: [ 
+          {type: Release},
+          {type: Debug}
+        ]
+
       fail-fast: false
 
     runs-on: ubuntu-latest
+    environment: Modification
 
     steps:
       - name: Checkout mlek-cmsis-pack-examples
@@ -51,3 +78,11 @@ jobs:
           path: |
                 ./packlist.txt
           retention-days: 1
+
+      - name: Build mlek contexts with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs \
+            --context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} \
+            --toolchain AC6--rebuild
