@@ -19,7 +19,7 @@ jobs:
       - name: Checkout mlek-cmsis-pack-examples
         uses: actions/checkout@v4
         with:
-          repository: Open-CMSIS-Pack/mlek-cmsis-pack-examples
+          repository: Evagan2018/mlek-cmsis-pack-examples
           path: ./
 
       - name: Install tools
