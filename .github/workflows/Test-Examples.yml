@@ -39,19 +39,5 @@ jobs:
         working-directory: ./
         run: |
           csolution list packs -s mlek.csolution.yml -m > packlist.txt
-          cpackget add -f packlist.txt
-          cat packlist.txt          
-          rm packlist
-
-
-      - name: Checkout STM32H7xx_DFP
-        uses: actions/checkout@v4
-        with:
-          repository: Open-CMSIS-Pack/STM32H7xx_DFP
-          path: ./STM32H7xx_DFP
-
-      - name: Checkout CMSIS-Driver_STM32
-        uses: actions/checkout@v4
-        with:
-          repository: Open-CMSIS-Pack/CMSIS-Driver_STM32
-          path: ./CMSIS-Driver_STM32
+          cat packlist.txt
+          cpackget add --agree-embedded-license --packs-list-filename packlist.txt
