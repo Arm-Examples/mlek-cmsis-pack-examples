@@ -38,4 +38,4 @@ jobs:
       - name: Install missing packs
         working-directory: ./
         run: |
-          csolution list packs -S mlek.csolution.yml -m
+          csolution list packs -d -v -S mlek.csolution.yml -m
