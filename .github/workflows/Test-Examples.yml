@@ -67,17 +67,8 @@ jobs:
         working-directory: ./
         run: |
           csolution list packs --quiet --missing mlek.csolution.yml > packlist.txt
-          cat packlist.txt
           cpackget add --agree-embedded-license --force-reinstall --packs-list-filename packlist.txt
-
-      - name: Upload packlist.txt as Artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: packlist.txt
-          path: |
-                ./packlist.txt
-          retention-days: 1
+          rm packlist.txt
 
       - name: Build mlek contexts with AC6
         if: always()
