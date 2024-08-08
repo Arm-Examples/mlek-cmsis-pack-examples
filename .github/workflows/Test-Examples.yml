@@ -62,14 +62,6 @@ jobs:
           cpackget init https://www.keil.com/pack/index.pidx
           cpackget update-index
 
-      - name: Install missing packs
-        if: always()      
-        working-directory: ./
-        run: |
-          csolution list packs --quiet --missing mlek.csolution.yml > packlist.txt
-          cpackget add --agree-embedded-license --force-reinstall --packs-list-filename packlist.txt
-          rm packlist.txt
-
       - name: Build mlek contexts with AC6
         if: always()
         working-directory: ./
