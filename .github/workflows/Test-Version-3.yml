@@ -1,0 +1,77 @@
+name: Test-Version-3   # BSP Examples
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '00 20 * * 6'
+
+jobs:
+  Test-Examples:                     # Install tools, build
+    strategy:
+
+      matrix:
+        target: [
+          {proj: kws,               board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            fvp_board: mps3_board},
+          {proj: kws,               board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  fvp_board: mps3_board},
+          {proj: kws,               board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  fvp_board: mps3_board},
+          {proj: kws,               board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
+          {proj: kws,               board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
+          {proj: kws,               board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  fvp_board: mps3_board},
+          {proj: kws,               board: FRDM-K64F,        type: none,          model: none,                            fvp_board: none      },
+          {proj: kws,               board: STM32F746-DISCO,  type: none,          model: none,                            fvp_board: none      },
+          {proj: object-detection,  board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            fvp_board: mps3_board},
+          {proj: object-detection,  board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  fvp_board: mps3_board},
+          {proj: object-detection,  board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  fvp_board: mps3_board},
+          {proj: object-detection,  board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
+          {proj: object-detection,  board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
+          {proj: object-detection,  board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  fvp_board: mps3_board}
+        ]
+
+        build: [ 
+          {type: Release},
+          {type: Debug}
+        ]
+
+        compiler: [ 
+          {name: AC6,  ext: axf},
+          {name: GCC,  ext: elf}
+        ]
+
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout mlek-cmsis-pack-examples
+      uses: actions/checkout@v4
+      with:
+        repository: Evagan2018/mlek-cmsis-pack-examples
+        path: ./
+
+    - name: Install tools
+      uses: ARM-software/cmsis-actions/vcpkg@v1
+      with:
+        config: "./vcpkg-configuration.json"
+
+    - name: Activate Arm tool license
+      uses: ARM-software/cmsis-actions/armlm@v1
+
+    - name: Initialize CMSIS pack root folder
+      run: |
+          cpackget init https://www.keil.com/pack/index.pidx
+          cpackget update-index
+
+# Placeholder for - name: Build mlek contexts action
+
+    - name: Execute mles contexts on FVPs
+      if: always()
+      working-directory: ./
+      run: |
+          if [[ ${{ matrix.compiler.model }} != none   ]] ; then
+             echo "Execute contex ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} build with ${{ matrix.compiler.name }} on FVP: ${{ matrix.compiler.model }} "
+          else
+             echo "An FVP is not available"
+          fi 
