@@ -64,3 +64,9 @@ jobs:
         working-directory: ./
         run: |
             cbuild mlek.csolution.yml --update-rte --packs --context .Debug --toolchain AC6 --rebuild
+
+      - name: Build mlek.csolution.yml without context
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --toolchain AC6 --rebuild
