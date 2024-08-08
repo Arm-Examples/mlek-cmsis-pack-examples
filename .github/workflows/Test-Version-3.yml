@@ -70,8 +70,7 @@ jobs:
       if: always()
       working-directory: ./
       run: |
-          if [[ ${{ matrix.compiler.model }} != none   ]] 
-           then
+          if [ "${{ matrix.compiler.model }}" != "none" ]; then 
              echo "Execute context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} build with ${{ matrix.compiler.name }} on FVP: ${{ matrix.compiler.model }} "
           else
              echo "An FVP is not available"
