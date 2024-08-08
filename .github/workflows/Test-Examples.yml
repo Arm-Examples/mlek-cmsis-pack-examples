@@ -32,6 +32,14 @@ jobs:
           {proj: object-detection, board: AVH-SSE-310-U65},
           {proj: object-detection, board: Alif-E7-M55-HP}
         ]
+
+        target_reduced: [
+          {proj: kws, board: AVH-SSE-300},
+          {proj: kws, board: Alif-E7-M55-HE},
+          {proj: object-detection, board: AVH-SSE-300},
+          {proj: object-detection, board: Alif-E7-M55-HP}
+        ]
+
         build: [ 
           {type: Release},
           {type: Debug}
