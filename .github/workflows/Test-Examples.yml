@@ -33,13 +33,6 @@ jobs:
           {proj: object-detection, board: Alif-E7-M55-HP}
         ]
 
-        target_reduced: [
-          {proj: kws, board: AVH-SSE-300},
-          {proj: kws, board: Alif-E7-M55-HE},
-          {proj: object-detection, board: AVH-SSE-300},
-          {proj: object-detection, board: Alif-E7-M55-HP}
-        ]
-
         build: [ 
           {type: Release},
           {type: Debug}
@@ -60,7 +53,7 @@ jobs:
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
         with:
-          config: "./.ci/vcpkg-configuration.json"
+          config: "./vcpkg-configuration.json"
 
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
