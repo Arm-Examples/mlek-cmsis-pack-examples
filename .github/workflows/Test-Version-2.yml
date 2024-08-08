@@ -1,0 +1,66 @@
+name: Test-Version-2   # BSP Examples
+on:
+  workflow_dispatch:
+
+jobs:
+  Test-Examples:                     # Install tools, build 
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout mlek-cmsis-pack-examples
+        uses: actions/checkout@v4
+        with:
+          repository: Evagan2018/mlek-cmsis-pack-examples
+          path: ./
+
+      - name: Install tools
+        uses: ARM-software/cmsis-actions/vcpkg@v1
+        with:
+          config: "./vcpkg-configuration.json"
+
+      - name: Activate Arm tool license
+        uses: ARM-software/cmsis-actions/armlm@v1
+
+      - name: Initialize CMSIS pack root folder
+        run: |
+          cpackget init https://www.keil.com/pack/index.pidx
+          cpackget update-index
+
+      - name: Build kws.Release with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --context kws.Release --toolchain AC6 --rebuild
+
+      - name: Build kws.Debug with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --context kws.Debug --toolchain AC6 --rebuild
+
+      - name: Build object-detection.Release with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --context object-detection.Release --toolchain AC6 --rebuild
+
+      - name: Build object-detection.Debug with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --context object-detection.Debug --toolchain AC6 --rebuild
+
+      - name: Build mlek.csolution.yml with .Release with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --context .Release --toolchain AC6 --rebuild
+
+      - name: Build mlek.csolution.yml with .Debug with AC6
+        if: always()
+        working-directory: ./
+        run: |
+            cbuild mlek.csolution.yml --update-rte --packs --context .Debug --toolchain AC6 --rebuild
