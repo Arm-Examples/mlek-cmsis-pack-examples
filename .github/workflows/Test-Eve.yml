@@ -1,0 +1,36 @@
+name: Private-Learning-Test  # BSP Examples
+on:
+  workflow_dispatch:
+
+jobs:
+  Test-Examples:                     # Install tools, build 
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout mlek-cmsis-pack-examples
+        uses: actions/checkout@v4
+        with:
+          repository: Evagan2018/mlek-cmsis-pack-examples
+          path: ./
+
+      - name: Install tools
+        uses: ARM-software/cmsis-actions/vcpkg@v1
+        with:
+          config: "./vcpkg-configuration.json"
+
+      - name: Activate Arm tool license
+        uses: ARM-software/cmsis-actions/armlm@v1
+
+      - name: Print-Out GitHub variables
+        if: always()
+        working-directory: ./
+        run: |
+            echo "GITHUB_REF: ${{ github.ref }}"
+            echo "PUBLISH_API_KEY: ${{ secrets.KEIL_API_TOKEN }}"
+            echo "CMSIS_API_KEY: ${{ secrets.CMSIS_API_KEY }}"
+            echo "GITHUB_REF      :  ${{ github.ref }}"
+            echo "GITHUB_PATH     :  ${{ github.path }}"
+            echo "GITHUB_REF_NAME :  ${{ github.ref.name }}"
