@@ -1,6 +1,8 @@
 name: Private-Learning-Test
 on:
   workflow_dispatch:
+  push:
+    branches: [main]    
 
 jobs:
   Show-GitHub-Variables:
