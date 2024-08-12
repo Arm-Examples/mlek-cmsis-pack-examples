@@ -16,14 +16,6 @@ jobs:
           repository: Evagan2018/mlek-cmsis-pack-examples
           path: ./
 
-      - name: Install tools
-        uses: ARM-software/cmsis-actions/vcpkg@v1
-        with:
-          config: "./vcpkg-configuration.json"
-
-      - name: Activate Arm tool license
-        uses: ARM-software/cmsis-actions/armlm@v1
-
       - name: Print-Out GitHub variables
         if: always()
         working-directory: ./
@@ -33,5 +25,4 @@ jobs:
             echo "GITHUB_REF      : ${{ github.ref }}"
             echo "GITHUB_PATH     : ${{ github.path }}"
             echo "GITHUB_REF_NAME : ${{ github.ref.name }}"
-            echo "GITHUB_REF_NAME : ${{ GITHUB_REF_NAME }}"
             echo "env.GITHUB_REF_NAME : ${{ env.GITHUB_REF_NAME }}"
