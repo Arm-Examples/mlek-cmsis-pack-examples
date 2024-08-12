@@ -24,13 +24,8 @@ jobs:
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
 
-      - name: Initialize CMSIS pack root folder
-        run: |
-          cpackget init https://www.keil.com/pack/index.pidx
-          cpackget update-index
-
-      - name: Build kws.Release with AC6
+      - name: Build projects
         if: always()
         working-directory: ./
         run: |
-            cbuild mlek.csolution.yml --update-rte --packs --toolchain AC6 --rebuild
+            cbuild mlek.csolution.yml --update-rte --packs --rebuild
