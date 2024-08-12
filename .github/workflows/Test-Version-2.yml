@@ -33,40 +33,4 @@ jobs:
         if: always()
         working-directory: ./
         run: |
-            cbuild mlek.csolution.yml --update-rte --packs --context kws.Release --toolchain AC6 --rebuild
-
-      - name: Build kws.Debug with AC6
-        if: always()
-        working-directory: ./
-        run: |
-            cbuild mlek.csolution.yml --update-rte --packs --context kws.Debug --toolchain AC6 --rebuild
-
-      - name: Build object-detection.Release with AC6
-        if: always()
-        working-directory: ./
-        run: |
-            cbuild mlek.csolution.yml --update-rte --packs --context object-detection.Release --toolchain AC6 --rebuild
-
-      - name: Build object-detection.Debug with AC6
-        if: always()
-        working-directory: ./
-        run: |
-            cbuild mlek.csolution.yml --update-rte --packs --context object-detection.Debug --toolchain AC6 --rebuild
-
-      - name: Build mlek.csolution.yml with .Release with AC6
-        if: always()
-        working-directory: ./
-        run: |
-            cbuild mlek.csolution.yml --update-rte --packs --context .Release --toolchain AC6 --rebuild
-
-      - name: Build mlek.csolution.yml with .Debug with AC6
-        if: always()
-        working-directory: ./
-        run: |
-            cbuild mlek.csolution.yml --update-rte --packs --context .Debug --toolchain AC6 --rebuild
-
-      - name: Build mlek.csolution.yml without context
-        if: always()
-        working-directory: ./
-        run: |
             cbuild mlek.csolution.yml --update-rte --packs --toolchain AC6 --rebuild
