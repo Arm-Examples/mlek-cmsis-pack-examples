@@ -1,12 +1,12 @@
 name: Test-Examples   # BSP Examples
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
-  schedule:
-    - cron: '00 20 * * 6'
+#  pull_request:
+#    branches: [main]
+#  push:
+#    branches: [main]
+#  schedule:
+#    - cron: '00 20 * * 6'
 
 jobs:
   Test-Examples:                     # Install tools, build 
@@ -38,6 +38,12 @@ jobs:
           {type: Debug}
         ]
 
+        compiler: [ 
+          {name: AC6},
+          {name: GCC}
+        ]
+
+
       fail-fast: false
 
     runs-on: ubuntu-latest
@@ -63,10 +69,10 @@ jobs:
           cpackget init https://www.keil.com/pack/index.pidx
           cpackget update-index
 
-      - name: Build mlek contexts with AC6
+      - name: Build mlek contexts with ${{ matrix.compiler.name }}
         if: always()
         working-directory: ./
         run: |
             cbuild mlek.csolution.yml --update-rte --packs \
             --context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} \
-            --toolchain AC6 --rebuild
+            --toolchain ${{ matrix.compiler.name }} --rebuild

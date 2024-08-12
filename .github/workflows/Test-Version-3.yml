@@ -1,12 +1,12 @@
 name: Test-Version-3   # BSP Examples
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
-  schedule:
-    - cron: '00 20 * * 6'
+#  pull_request:
+#    branches: [main]
+#  push:
+#    branches: [main]
+#  schedule:
+#    - cron: '00 20 * * 6'
 
 jobs:
   Test-Examples:                     # Install tools, build
@@ -64,14 +64,25 @@ jobs:
           cpackget init https://www.keil.com/pack/index.pidx
           cpackget update-index
 
-# Placeholder for - name: Build mlek contexts action
+    - name: Build mlek contexts with ${{ matrix.compiler.name }}
+      if: always()
+      working-directory: ./
+      run: |
+          cbuild mlek.csolution.yml --update-rte --packs \
+          --context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} \
+          --toolchain ${{ matrix.compiler.name }} --rebuild
 
-    - name: Execute mles contexts on FVPs
+    - name: Execute mlek contexts on FVPs
+      # The executables are placed in the following folders: ./out/object-detection/AVH-SSE-300-U55\Debug
       if: always()
       working-directory: ./
       run: |
           if [ "${{ matrix.target.model }}" != "none" ]; then 
              echo "Execute context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} build with ${{ matrix.compiler.name }} on FVP: ${{ matrix.target.model }} "
+             ${{ matrix.target.model }} \
+             -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/${{ matrix.build.type }}/${{ matrix.target.proj }}.${{ matrix.compiler.ext }} \
+             -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
+             --simlimit 60 --stat
           else
              echo "An FVP is not available"
-          fi 
+          fi

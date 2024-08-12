@@ -28,9 +28,10 @@ jobs:
         if: always()
         working-directory: ./
         run: |
-            echo "GITHUB_REF: ${{ github.ref }}"
-            echo "PUBLISH_API_KEY: ${{ secrets.KEIL_API_TOKEN }}"
-            echo "CMSIS_API_KEY: ${{ secrets.CMSIS_API_KEY }}"
-            echo "GITHUB_REF      :  ${{ github.ref }}"
-            echo "GITHUB_PATH     :  ${{ github.path }}"
-            echo "GITHUB_REF_NAME :  ${{ github.ref.name }}"
+            echo "PUBLISH_API_KEY : ${{ secrets.KEIL_API_TOKEN }}"
+            echo "CMSIS_API_KEY   : ${{ secrets.CMSIS_API_KEY }}"
+            echo "GITHUB_REF      : ${{ github.ref }}"
+            echo "GITHUB_PATH     : ${{ github.path }}"
+            echo "GITHUB_REF_NAME : ${{ github.ref.name }}"
+            echo "GITHUB_REF_NAME : ${{ GITHUB_REF_NAME }}"
+            echo "env.GITHUB_REF_NAME : ${{ env.GITHUB_REF_NAME }}"
