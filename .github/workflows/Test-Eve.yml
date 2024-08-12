@@ -1,9 +1,9 @@
-name: Private-Learning-Test  # BSP Examples
+name: Private-Learning-Test
 on:
   workflow_dispatch:
 
 jobs:
-  Test-Examples:                     # Install tools, build 
+  Show-GitHub-Variables:
     strategy:
       fail-fast: false
 
@@ -35,7 +35,7 @@ jobs:
             echo "GITHUB_REPOSITORY_OWNER (a)      :  ${{ env.GITHUB_REPOSITORY_OWNER }}"
             echo "GITHUB_REPOSITORY_OWNER (b)      :  ${{ github.repository_owner }}"
             echo "GITHUB_REPOSITORY_OWNER_ID (a)   :  ${{ env.GITHUB_REPOSITORY_OWNER_ID }}"
-            echo "GITHUB_REPOSITORY_OWNER_ID (b)   :  ${{ github.owner_id }}"
+            echo "GITHUB_REPOSITORY_OWNER_ID (b)   :  ${{ github.repository_owner_id }}"
             echo "GITHUB_RETENTION_DAYS (a)        :  ${{ env.GITHUB_RETENTION_DAYS }}"
             echo "GITHUB_RETENTION_DAYS (b)        :  ${{ github.retention_days }}"
             echo "GITHUB_RUN_ID (a)                :  ${{ env.GITHUB_RUN_ID }}"
