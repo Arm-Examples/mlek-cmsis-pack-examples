@@ -30,15 +30,6 @@ jobs:
           {proj: object-detection,  board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  fvp_board: mps3_board}
         ]
 
-        build: [ 
-          {type: Release},
-          {type: Debug}
-        ]
-
-        compiler: [ 
-          {name: AC6,  ext: axf},
-          {name: GCC,  ext: elf}
-        ]
 
       fail-fast: false
 
@@ -47,9 +38,6 @@ jobs:
     steps:
     - name: Checkout mlek-cmsis-pack-examples
       uses: actions/checkout@v4
-      with:
-        repository: Evagan2018/mlek-cmsis-pack-examples
-        path: ./
 
     - name: Install tools
       uses: ARM-software/cmsis-actions/vcpkg@v1
@@ -59,30 +47,26 @@ jobs:
     - name: Activate Arm tool license
       uses: ARM-software/cmsis-actions/armlm@v1
 
-    - name: Initialize CMSIS pack root folder
-      run: |
-          cpackget init https://www.keil.com/pack/index.pidx
-          cpackget update-index
-
-    - name: Build mlek contexts with ${{ matrix.compiler.name }}
+    - name: Build mlek contexts with AC6
       if: always()
-      working-directory: ./
       run: |
-          cbuild mlek.csolution.yml --update-rte --packs \
-          --context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} \
-          --toolchain ${{ matrix.compiler.name }} --rebuild
+         cbuild mlek.csolution.yml --update-rte --packs \
+         --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
 
-    - name: Execute mlek contexts on FVPs
-      # The executables are placed in the following folders: ./out/object-detection/AVH-SSE-300-U55\Debug
+    - name: Upload Artifacts of the ${{ matrix.target.proj }} Release build
       if: always()
-      working-directory: ./
-      run: |
-          if [ "${{ matrix.target.model }}" != "none" ]; then 
-             echo "Execute context ${{ matrix.target.proj }}.${{ matrix.build.type }}+${{ matrix.target.board }} build with ${{ matrix.compiler.name }} on FVP: ${{ matrix.target.model }} "
-             ${{ matrix.target.model }} \
-             -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/${{ matrix.build.type }}/${{ matrix.target.proj }}.${{ matrix.compiler.ext }} \
-             -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
-             --simlimit 60 --stat
-          else
-             echo "An FVP is not available"
-          fi
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.target.proj }}_${{ matrix.target.board }}_Release
+        path: |
+          ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/
+        retention-days: 1
+
+    - name: Upload Artifacts of the ${{ matrix.target.proj }} Debug build
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.target.proj }}_${{ matrix.target.board }}_Debug
+        path: |
+          ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/
+        retention-days: 1
