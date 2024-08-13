@@ -64,7 +64,7 @@ jobs:
             -C ethosu.num_macs=256 \
             --simlimit 120 --stat
 
-          if
+          fi
 
     - name: Execute mlek debug contexts on FVPs
       # The executable is  placed in the following folder: ./out/object-detection/<board>/Debug/
@@ -79,4 +79,4 @@ jobs:
             -C ethosu.num_macs=256 \
             --simlimit 120 --stat
 
-          if
+          fi
