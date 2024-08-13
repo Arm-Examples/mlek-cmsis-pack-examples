@@ -14,18 +14,18 @@ jobs:
 
       matrix:
         target: [
-          {proj: kws,               board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            fvp_board: mps3_board},
-          {proj: kws,               board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  fvp_board: mps3_board},
-          {proj: kws,               board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  fvp_board: mps3_board},
-          {proj: kws,               board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
-          {proj: kws,               board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
-          {proj: kws,               board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  fvp_board: mps3_board},
-          {proj: object-detection,  board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            fvp_board: mps3_board},
-          {proj: object-detection,  board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  fvp_board: mps3_board},
-          {proj: object-detection,  board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  fvp_board: mps3_board},
-          {proj: object-detection,  board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
-          {proj: object-detection,  board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
-          {proj: object-detection,  board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  fvp_board: mps3_board}
+          {proj: kws,               board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            ethos_macs: none},
+          {proj: kws,               board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  ethos_macs: 256},
+          {proj: kws,               board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  ethos_macs: 256},
+          {proj: kws,               board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
+          {proj: kws,               board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
+          {proj: kws,               board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  ethos_macs: 256},
+          {proj: object-detection,  board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            ethos_macs: none},
+          {proj: object-detection,  board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  ethos_macs: 256},
+          {proj: object-detection,  board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  ethos_macs: 256},
+          {proj: object-detection,  board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
+          {proj: object-detection,  board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
+          {proj: object-detection,  board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  ethos_macs: 256}
         ]
 
 
@@ -55,18 +55,28 @@ jobs:
       # The executable is  placed in the following folder: ./out/object-detection/<board>/Release/
       if: always()
       run: |
-         echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
-         ${{ matrix.target.model }} \
-         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.axf \
-         -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
-         --simlimit 60 --stat
+          if [ "${{ matrix.target.ethos_macs }}" != "none" ]; then
+
+            echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
+            ${{ matrix.target.model }} \
+            -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.axf \
+            -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
+            -C ethosu.num_macs=256 \
+            --simlimit 120 --stat
+
+          if
 
     - name: Execute mlek debug contexts on FVPs
       # The executable is  placed in the following folder: ./out/object-detection/<board>/Debug/
       if: always()
       run: |
-         echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
-         ${{ matrix.target.model }} \
-         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/${{ matrix.target.proj }}.axf \
-         -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
-         --simlimit 60 --stat
+          if [ "${{ matrix.target.ethos_macs }}" != "none" ]; then 
+      
+            echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
+            ${{ matrix.target.model }} \
+            -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/${{ matrix.target.proj }}.axf \
+            -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
+            -C ethosu.num_macs=256 \
+            --simlimit 120 --stat
+
+          if
