@@ -20,8 +20,6 @@ jobs:
           {proj: kws,               board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
           {proj: kws,               board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            fvp_board: mps3_board},
           {proj: kws,               board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  fvp_board: mps3_board},
-          {proj: kws,               board: FRDM-K64F,        type: none,          model: none,                            fvp_board: none      },
-          {proj: kws,               board: STM32F746-DISCO,  type: none,          model: none,                            fvp_board: none      },
           {proj: object-detection,  board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            fvp_board: mps3_board},
           {proj: object-detection,  board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  fvp_board: mps3_board},
           {proj: object-detection,  board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  fvp_board: mps3_board},
@@ -42,7 +40,7 @@ jobs:
     - name: Install tools
       uses: ARM-software/cmsis-actions/vcpkg@v1
       with:
-        config: "./vcpkg-configuration.json"
+        config: ".ci/vcpkg-configuration.json"
 
     - name: Activate Arm tool license
       uses: ARM-software/cmsis-actions/armlm@v1
@@ -52,21 +50,3 @@ jobs:
       run: |
          cbuild mlek.csolution.yml --update-rte --packs \
          --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
-
-    - name: Upload Artifacts of the ${{ matrix.target.proj }} Release build
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.target.proj }}_${{ matrix.target.board }}_Release
-        path: |
-          ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/
-        retention-days: 1
-
-    - name: Upload Artifacts of the ${{ matrix.target.proj }} Debug build
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ matrix.target.proj }}_${{ matrix.target.board }}_Debug
-        path: |
-          ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/
-        retention-days: 1
