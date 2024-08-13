@@ -57,7 +57,7 @@ jobs:
       run: |
          echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
          ${{ matrix.target.model }} \
-         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.afx \
+         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.axf \
          -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
          --simlimit 60 --stat
 
@@ -67,6 +67,6 @@ jobs:
       run: |
          echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
          ${{ matrix.target.model }} \
-         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/${{ matrix.target.proj }}.afx \
+         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/${{ matrix.target.proj }}.axf \
          -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
          --simlimit 60 --stat
