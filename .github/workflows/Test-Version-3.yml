@@ -50,3 +50,23 @@ jobs:
       run: |
          cbuild mlek.csolution.yml --update-rte --packs \
          --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
+
+    - name: Execute mlek release contexts on FVPs
+      # The executable is  placed in the following folder: ./out/object-detection/<board>/Release/
+      if: always()
+      run: |
+         echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
+         ${{ matrix.target.model }} \
+         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.afx \
+         -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
+         --simlimit 60 --stat
+
+    - name: Execute mlek debug contexts on FVPs
+      # The executable is  placed in the following folder: ./out/object-detection/<board>/Debug/
+      if: always()
+      run: |
+         echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
+         ${{ matrix.target.model }} \
+         -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/${{ matrix.target.proj }}.afx \
+         -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
+         --simlimit 60 --stat
