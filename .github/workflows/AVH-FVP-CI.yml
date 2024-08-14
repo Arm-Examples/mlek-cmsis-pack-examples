@@ -55,12 +55,15 @@ jobs:
       if: always()
       run: |
           if [ "${{ matrix.target.ethos_macs }}" != "none" ]; then
-
+          macs="-C ethosu.num_macs=256 "
+          else             
+          macs=""
+          fi 
             echo "Execute context (release) ${{ matrix.target.proj }}+${{ matrix.target.board }} on FVP: ${{ matrix.target.model }} "
             ${{ matrix.target.model }} \
             -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.axf \
             -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
-            -C ethosu.num_macs=256 \
+            $macs \
             -C ${{ matrix.target.uart }}.out_file=./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/fvp_stdout.log \
             --simlimit 60 --stat
             cat ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/fvp_stdout.log
