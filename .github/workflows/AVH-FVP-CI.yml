@@ -1,4 +1,4 @@
-name: Test-Version-3   # BSP Examples
+name: FVP   # Build and execution test
 on:
   workflow_dispatch:
 #  pull_request:
@@ -47,7 +47,7 @@ jobs:
     - name: Build mlek contexts with AC6
       if: always()
       run: |
-         cbuild mlek.csolution.yml --update-rte --packs \
+         cbuild mlek.csolution.yml --packs \
          --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
 
     - name: Execute mlek release contexts on FVPs
