@@ -14,20 +14,19 @@ jobs:
 
       matrix:
         target: [
-          {proj: kws,               board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            ethos_macs: none},
-          {proj: kws,               board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  ethos_macs: 256},
-          {proj: kws,               board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  ethos_macs: 256},
-          {proj: kws,               board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
-          {proj: kws,               board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
-          {proj: kws,               board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  ethos_macs: 256},
-          {proj: object-detection,  board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            ethos_macs: none},
-          {proj: object-detection,  board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  ethos_macs: 256},
-          {proj: object-detection,  board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  ethos_macs: 256},
-          {proj: object-detection,  board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
-          {proj: object-detection,  board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256},
-          {proj: object-detection,  board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  ethos_macs: 256}
+          {proj: kws,               board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            ethos_macs: none,   uart: mps3_board.uart0},
+          {proj: kws,               board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: kws,               board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: kws,               board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: kws,               board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: kws,               board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: object-detection,  board: AVH-SSE-300,      type: Corstone_300,  model: FVP_Corstone_SSE-300,            ethos_macs: none,   uart: mps3_board.uart0},
+          {proj: object-detection,  board: AVH-SSE-300-U55,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U55,  ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: object-detection,  board: AVH-SSE-300-U65,  type: Corstone_300,  model: FVP_Corstone_SSE-300_Ethos-U65,  ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: object-detection,  board: AVH-SSE-310,      type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: object-detection,  board: AVH-SSE-310-U55,  type: Corstone_310,  model: FVP_Corstone_SSE-310,            ethos_macs: 256,    uart: mps3_board.uart0},
+          {proj: object-detection,  board: AVH-SSE-310-U65,  type: Corstone_310,  model: FVP_Corstone_SSE-310_Ethos-U65,  ethos_macs: 256,    uart: mps3_board.uart0}
         ]
-
 
       fail-fast: false
 
@@ -62,8 +61,9 @@ jobs:
             -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/${{ matrix.target.proj }}.axf \
             -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
             -C ethosu.num_macs=256 \
-            --simlimit 120 --stat
-
+            -C ${{ matrix.target.uart }}.out_file=./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/fvp_stdout.log \
+            --simlimit 60 --stat
+            cat ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/fvp_stdout.log
           fi
 
     - name: Execute mlek debug contexts on FVPs
@@ -77,6 +77,7 @@ jobs:
             -a ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/${{ matrix.target.proj }}.axf \
             -f ./FVP/${{ matrix.target.model }}/fvp_config.txt \
             -C ethosu.num_macs=256 \
-            --simlimit 120 --stat
-
+            -C ${{ matrix.target.uart }}.out_file=./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/fvp_stdout.log \
+            --simlimit 60 --stat
+            cat ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Debug/fvp_stdout.log
           fi
