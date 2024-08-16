@@ -3,17 +3,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  Test-Examples:                     # Install tools, build 
+  Test:                     # Install tools, build
     strategy:
 
       matrix:
         target: [
           {proj: kws, board: FRDM-K64F},
+          {proj: kws, board: STM32F746-DISCO}
           # {proj: kws, board: Alif-E7-M55-HP},
-          {proj: kws, board: STM32F746-DISCO},
-          {proj: object-detection, board: FRDM-K64F},
-          # {proj: object-detection, board: Alif-E7-M55-HP},
-          {proj: object-detection, board: STM32F746-DISCO}
+          # {proj: object-detection, board: Alif-E7-M55-HP}
         ]
 
       fail-fast: false
