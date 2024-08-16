@@ -9,7 +9,7 @@ on:
 #    - cron: '00 20 * * 6'
 
 jobs:
-  Test-Examples:                     # Install tools, build
+  Test:                     # Install tools, build
     strategy:
 
       matrix:
