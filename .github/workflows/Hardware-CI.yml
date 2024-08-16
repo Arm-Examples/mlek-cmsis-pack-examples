@@ -3,7 +3,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  Test:                     # Install tools, build
+  Build:                     # Install tools, build
+
     strategy:
 
       matrix:
@@ -35,3 +36,12 @@ jobs:
         run: |
             cbuild mlek.csolution.yml --update-rte --packs \
             --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
+
+      - name: Upload build Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target.proj }}_${{ matrix.target.board }}_AC6
+          path: |
+            ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/
+          retention-days: 1
