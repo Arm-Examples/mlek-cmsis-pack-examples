@@ -1,4 +1,4 @@
-name: Test-Version-2   # BSP Examples
+name: HW   # Hardware build test
 on:
   workflow_dispatch:
 
@@ -8,21 +8,12 @@ jobs:
 
       matrix:
         target: [
-          {proj: kws, board: AVH-SSE-300},
-          {proj: kws, board: AVH-SSE-300-U55},
-          {proj: kws, board: AVH-SSE-300-U65},
-          {proj: kws, board: AVH-SSE-310},
-          {proj: kws, board: AVH-SSE-310-U55},
-          {proj: kws, board: AVH-SSE-310-U65},
           {proj: kws, board: FRDM-K64F},
+          # {proj: kws, board: Alif-E7-M55-HP},
           {proj: kws, board: STM32F746-DISCO},
-
-          {proj: object-detection, board: AVH-SSE-300},
-          {proj: object-detection, board: AVH-SSE-300-U55},
-          {proj: object-detection, board: AVH-SSE-300-U65},
-          {proj: object-detection, board: AVH-SSE-310},
-          {proj: object-detection, board: AVH-SSE-310-U55},
-          {proj: object-detection, board: AVH-SSE-310-U65}
+          {proj: object-detection, board: FRDM-K64F},
+          # {proj: object-detection, board: Alif-E7-M55-HP},
+          {proj: object-detection, board: STM32F746-DISCO}
         ]
 
       fail-fast: false
