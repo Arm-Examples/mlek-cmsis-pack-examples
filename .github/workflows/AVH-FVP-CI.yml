@@ -1,12 +1,12 @@
 name: AVH build and execution test
 on:
   workflow_dispatch:
-#  pull_request:
-#    branches: [main]
-#  push:
-#    branches: [main]
-#  schedule:
-#    - cron: '00 20 * * 6'
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '00 20 * * 6'
 
 jobs:
   AVH:                     # Install tools, build, and execute
@@ -44,12 +44,11 @@ jobs:
     - name: Activate Arm tool license
       uses: ARM-software/cmsis-actions/armlm@v1
 
-    - name: Build context context ${{ matrix.target.proj }}+${{ matrix.target.board }} with AC6
+    - name: Build project ${{ matrix.target.proj }} for target ${{ matrix.target.board }} with AC6
       run: |
-         cbuild mlek.csolution.yml --update-rte --packs \
-         --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
+         cbuild mlek.csolution.yml --update-rte --packs --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
 
-    - name: Execute release context ${{ matrix.target.proj }}+${{ matrix.target.board }} on ${{ matrix.target.model }}
+    - name: Execute project ${{ matrix.target.proj }}, target ${{ matrix.target.board }}, build Release on AVH ${{ matrix.target.model }}
       if: always()
       run: |
           ${{ matrix.target.model }} \
@@ -59,7 +58,7 @@ jobs:
           --simlimit 60 --stat
           cat ./out/${{ matrix.target.proj }}/${{ matrix.target.board }}/Release/fvp_stdout.log
 
-    - name: Execute debug context ${{ matrix.target.proj }}+${{ matrix.target.board }} on ${{ matrix.target.model }}
+    - name: Execute project ${{ matrix.target.proj }}, target ${{ matrix.target.board }}, build Debug on AVH ${{ matrix.target.model }}
       if: always()
       run: |
           ${{ matrix.target.model }} \
