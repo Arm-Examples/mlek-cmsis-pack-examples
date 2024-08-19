@@ -1,6 +1,4 @@
-[![Version](https://img.shields.io/github/v/release/Arm-Examples/mlek-cmsis-pack-examples)](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/releases/latest)
-
-# Example projects based on Arm ML (Machine Learning) evaluation kit
+# Continuous Integration (CI) Test for Arm Machine Learning Evaluation Kit (MLEK)
 
 The provided **mlek-cmsis-pack-examples** are designed to work with the ARM compiler toolchain.
 
