@@ -1,69 +1,17 @@
-# Continuous Integration (CI) Test for Arm Machine Learning Evaluation Kit (MLEK)
+# Continuous Integration (CI) Test for MLEK
 
-The provided **mlek-cmsis-pack-examples** are designed to work with the ARM compiler toolchain.
+  
+Content of `.ci` Directory   | Description
+:----------------------------|:-----------------
+`vcpkg-configuration.json`   | Tool setup for the CI test.
 
-## Repository top-level structure
 
-Directory                   | Description
-:---------------------------|:--------------
-[.ci](./)                                                                                                  | Includes the tool configuration for the **[GitHub Actions](#github-actions)** and the current description.
-[.github/workflows](./../.github/workflows)                                                                | **[GitHub Actions](#github-actions)** .
-[FVP/](./../FVP)                                                                                           | Configuration files for the **AVH FVP** simulation models.
-[device/](./../device)                                                                                     | Device specific files.
-[resources/](./../resources)                                                                               | Prerecorded sample data used in **object-detection** and **kws** (key word spotting) example projects.
-[object-detection/](./../object-detection)                                                                 | Example project for **object-detection**.
-[kws/](./../kws)                                                                                           | Example project for **kws** (key word spotting).
-[docs/](./../docs)                                                                                         | Documentation files.
-[common/](./../common)                                                                                     | Common files and platform-agnostic components for examples based on **[Arm ML Embedded evaluation kit](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/)**.
+## GitHub Action Workflows
 
-## Projects and targets
+The [GitHub Actions](https://docs.github.com/en/actions) in the directory `.github/workflows` are the scripts for the CI tests. These scripts contain detailed comments about each step that is executed. 
 
-This repository contains two **projects**
+The Arm Machine Learning Example Kit uses the ARM compiler (AC6) toolchain. As such all workflows are using this compiler.
 
-Project file                | Description
-:---------------------------|:--------------
-[./kws/kws.cproject.yml](./../kws/kws.cproject.yml)                                                       | Example project for **kws** (key word spotting). The application will detect a keyword in a sample audio file [sample_audio](./../resources/sample_audio.wav).
-[./object-detection/object-detection.cproject.yml](./../object-detection/object-detection.cproject.yml)   | Example project for **object-detection**. The application will detect two objects in the sample image file [sample_image](./../resources/sample_image.png).
+- `AVH-FVP-CI.yml` implements the *AVH build and execution test* that runs on [Arm Virtual Hardware - Fixed Virtual Platforms (AVH FVP)](https://arm-software.github.io/AVH/main/simulation/html/index.html) simulation models. The directory `FVP` contains configuration files for the FVP simulation models.
 
-The following **targets** are supported respectively implementation is ongoing
-
-Project name                                                               | Target               | Note
-:--------------------------------------------------------------------------|:---------------------|:--------------
-[`kws`](./../kws/kws.cproject.yml)                                         | `FRDM-K64F`          |
-[`kws`](./../kws/kws.cproject.yml)                                         | `STM32F746-DISCO`    |
-[`kws`](./../kws/kws.cproject.yml)                                         | `Alif-E7-M55-HP`     | Not implemented yet
-[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-300`        |
-[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-300-U55`    |
-[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-300-U65`    |
-[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-310`        |
-[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-310-U55`    |
-[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-310-U65`    |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-300`        |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-300-U55`    |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-300-U65`    |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-310`        |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-310-U55`    |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-310-U65`    |
-[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `Alif-E7-M55-HP`     | Not implemented yet
-
-## GitHub Actions
-
-The repository uses GitHub Actions to build and execute the ml examples:
-Workflow                    | Description
-:---------------------------|:--------------
-[`.github/workflows/AVH-FVP-CI.yml`](./../.github/workflows/AVH-FVP-CI.yml)     | builds the examples for **AVH** targets and execute them.
-[`.github/workflows/Hardware-CI.yml`](./../.github/workflows/Hardware-CI.yml)   | builds the examples for hardware targets and upload them as Artifacts.
-
-Both workflows are executed periodically once a week, manually, and in case of push or pull operations.
-
-## License
-
-The examples are licensed under [![License](https://img.shields.io/github/license/Arm-Examples/mlek-cmsis-pack-examples?label)](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/blob/main/LICENSE).
-
-## Issues
-
-Please feel free to raise an [issue on GitHub](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/issues)
-to report misbehavior (i.e. bugs) or start discussions about enhancements. This
-is your best way to interact directly with the maintenance team and the community.
-We encourage you to append implementation suggestions as this helps to decrease the
-workload of the maintenance team.
+- `Hardware-CI.yml` implmentes the *Hardware build test* that runs on evaluation boards. The output of this build test is stored as artifacts and can be downloaded to the evaluation board for execution.
