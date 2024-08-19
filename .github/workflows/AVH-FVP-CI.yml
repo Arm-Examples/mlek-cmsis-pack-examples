@@ -9,7 +9,7 @@ on:
     - cron: '00 20 * * 6'
 
 jobs:
-  AVH:                     # Install tools, build, and execute
+  AVH:
     strategy:
 
       matrix:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout mlek-cmsis-pack-examples
+    - name: Checkout repo
       uses: actions/checkout@v4
 
     - name: Install tools

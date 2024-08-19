@@ -9,7 +9,7 @@ on:
     - cron: '00 20 * * 6'    
 
 jobs:
-  HW:                     # Install tools, build, and upload Artifacts
+  HW:
     strategy:
 
       matrix:
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout mlek-cmsis-pack-examples
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Install tools
@@ -36,7 +36,7 @@ jobs:
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1
 
-      - name: Build mlek contexts with AC6
+      - name: Build project ${{ matrix.target.proj }} for target ${{ matrix.target.board }} with AC6
         run: |
             cbuild mlek.csolution.yml --update-rte --packs --context ${{ matrix.target.proj }}+${{ matrix.target.board }}
 
