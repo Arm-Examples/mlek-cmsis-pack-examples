@@ -1,5 +1,13 @@
+[![License](https://img.shields.io/github/license/Arm-Examples/mlek-cmsis-pack-examples?label)](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/blob/main/LICENSE)
+[![AVH Build and Execution Test](https://img.shields.io/github/actions/workflow/status/Arm-Examples/mlek-cmsis-pack-examples/AVH-FVP-CI.yml?logo=arm&logoColor=0091bd&label=AVH%20Build%20and%20execution%20test)](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/.github/workflows/AVH-FVP-CI.yml)
+
+[![Hardware target Build Test](https://img.shields.io/github/actions/workflow/status/Arm-Examples/mlek-cmsis-pack-examples/Hardware-CI.yml?logo=arm&logoColor=0091bd&label=Hardware%20target%20Build%20test)](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/.github/workflows/Hardware-CI.yml)
+
+# AVH-Hello
+
 # CMSIS-Pack based Machine Learning Examples
 
+- [AVH-Hello](#avh-hello)
 - [CMSIS-Pack based Machine Learning Examples](#cmsis-pack-based-machine-learning-examples)
 - [Introduction](#introduction)
   - [Examples](#examples)
@@ -8,12 +16,13 @@
   - [Object detection](#object-detection)
   - [Keyword spotting](#keyword-spotting)
 - [Prerequisites](#prerequisites)
-  - [Support for Visual Studio Code](#support-for-visual-studio-code)
-  - [Tools](#tools)
+  - [Visual Studio Code](#visual-studio-code)
   - [Packs](#packs)
 - [Building the examples](#building-the-examples)
+  - [Launch project in Visual Studio Code](#launch-project-in-visual-studio-code)
   - [Download Software Packs](#download-software-packs)
   - [Generate and build the project](#generate-and-build-the-project)
+  - [Execute project](#execute-project)
   - [Application output](#application-output)
 - [Trademarks](#trademarks)
 - [Licenses](#licenses)
@@ -25,6 +34,7 @@ This repository contains Machine Learning (ML) examples using the CMSIS-Pack fro
 [ML Embedded Evaluation Kit](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/+/refs/heads/main).
 
 ## Examples
+
 Currently, the following examples are supported:
 
 - **Object detection** - detects objects in the input image.
@@ -75,7 +85,6 @@ This example can detect up to twelve keywords in the input audio stream. The
 
 More details about the input for this example can be found [here](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/+/refs/heads/main/docs/use_cases/kws.md#preprocessing-and-feature-extraction).
 
-
 # Prerequisites
 
 ## Visual Studio Code
@@ -97,7 +106,6 @@ also work.
 CMSIS-Pack defines a standardized way to deliver software components, device parameters and board
 support information and code. A list of available CMSIS-Packs can be found
 [here](https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs).
-
 
 # Building the examples
 
