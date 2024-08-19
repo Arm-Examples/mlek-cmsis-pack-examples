@@ -1,4 +1,4 @@
-name: Build & Execute (BE) AVH targets   # Build and execution test
+name: AVH build and execution test
 on:
   workflow_dispatch:
 #  pull_request:
@@ -9,7 +9,7 @@ on:
 #    - cron: '00 20 * * 6'
 
 jobs:
-  BE:                     # Install tools, build, and execute
+  AVH:                     # Install tools, build, and execute
     strategy:
 
       matrix:

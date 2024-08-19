@@ -1,4 +1,4 @@
-name: Build Hardware targets   # Hardware build test
+name: Hardware build test
 on:
   workflow_dispatch:
    #  pull_request:
@@ -9,8 +9,7 @@ on:
    #    - cron: '00 20 * * 6'    
 
 jobs:
-  Build:                     # Install tools, build, and upload Artifacts
-
+  HW:                     # Install tools, build, and upload Artifacts
     strategy:
 
       matrix:
