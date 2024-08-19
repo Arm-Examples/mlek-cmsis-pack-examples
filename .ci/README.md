@@ -8,15 +8,15 @@ The provided **mlek-cmsis-pack-examples** are designed to work with the ARM comp
 
 Directory                   | Description
 :---------------------------|:--------------
-[.ci](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/.github/workflows)                | Includes the tool configuration for the **[GitHub Actions](#github-actions)** and the current description.
-[.github/workflows](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/.github/workflows)  | **[GitHub Actions](#github-actions)** .
-[FVP/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/FVP)                             | Configuration files for the **AVH FVP** simulation models.
-[device/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/device)                       | Device specific files.
-[resources/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/resources)                 | Prerecorded sample data used in **object-detection** and **kws** (key word spotting) example projects.
-[object-detection/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/object-detection)   | Example project for **object-detection**.
-[kws/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/kws)                             | Example project for **kws** (key word spotting).
-[docs/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/docs)                           | Documentation files.
-[common/](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/common)                       | Common files and platform-agnostic components for examples based on **[Arm ML Embedded evaluation kit](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/)**.
+[.ci](./)                                                                                                  | Includes the tool configuration for the **[GitHub Actions](#github-actions)** and the current description.
+[.github/workflows](./../.github/workflows)                                                                | **[GitHub Actions](#github-actions)** .
+[FVP/](./../FVP)                                                                                           | Configuration files for the **AVH FVP** simulation models.
+[device/](./../device)                                                                                     | Device specific files.
+[resources/](./../resources)                                                                               | Prerecorded sample data used in **object-detection** and **kws** (key word spotting) example projects.
+[object-detection/](./../object-detection)                                                                 | Example project for **object-detection**.
+[kws/](./../kws)                                                                                           | Example project for **kws** (key word spotting).
+[docs/](./../docs)                                                                                         | Documentation files.
+[common/](./../common)                                                                                     | Common files and platform-agnostic components for examples based on **[Arm ML Embedded evaluation kit](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/)**.
 
 ## Projects and targets
 
@@ -24,12 +24,10 @@ This repository contains two **projects**
 
 Project file                | Description
 :---------------------------|:--------------
-[./kws/kws.cproject.yml](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/kws/kws.cproject.yml)                             | Example project for **kws** (key word spotting). The application will detect a keyword in a sample audio file [sample_audio](./../resources/sample_audio.wav).
-[./object-detection/object-detection.cproject.yml](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/tree/main/object-detection/object-detection.cproject.yml)   | Example project for **object-detection**. The application will detect two objects in the sample image file [sample_image](./../resources/sample_image.png).
-
+[./kws/kws.cproject.yml](./../kws/kws.cproject.yml)                                                       | Example project for **kws** (key word spotting). The application will detect a keyword in a sample audio file [sample_audio](./../resources/sample_audio.wav).
+[./object-detection/object-detection.cproject.yml](./../object-detection/object-detection.cproject.yml)   | Example project for **object-detection**. The application will detect two objects in the sample image file [sample_image](./../resources/sample_image.png).
 
 The following **targets** are supported respectively implementation is ongoing
-
 
 Project name                | Target               | Note
 :---------------------------|:---------------------|:--------------
@@ -50,19 +48,13 @@ Project name                | Target               | Note
 `object-detection`          | `AVH-SSE-310-U65`    |
 `object-detection`          | `Alif-E7-M55-HP`     | Not implemented yet
 
-
-
-
-
-
-
 ## GitHub Actions
 
 The repository uses GitHub Actions to build and execute the ml examples:
 Workflow                    | Description
 :---------------------------|:--------------
-`.github/workflows/AVH-FVP-CI.yml`  | builds the examples for **AVH** targets and execute them.
-`.github/workflows/Hardware-CI.yml` | builds the examples for hardware targets and upload them as Artifacts.
+[`.github/workflows/AVH-FVP-CI.yml`](./../.github/workflows/AVH-FVP-CI.yml)     | builds the examples for **AVH** targets and execute them.
+[`.github/workflows/Hardware-CI.yml`](./../.github/workflows/Hardware-CI.yml)   | builds the examples for hardware targets and upload them as Artifacts.
 
 Both workflows are executed periodically once a week, manually, and in case of push or pull operations.
 
