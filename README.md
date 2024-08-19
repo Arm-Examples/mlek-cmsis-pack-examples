@@ -46,8 +46,12 @@ Target platforms supported:
 
 | Name                  | Type                | IP                                            | Examples |
 |-----------------------|---------------------|-----------------------------------------------|----------|
-| Arm® Corstone™-300    | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55 or Arm® Ethos™-U65 NPU | All      |
-| Arm® Corstone™-310    | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U55 or Arm® Ethos™-U65 NPU | All      |
+| Arm® Corstone™-300    | Virtual or physical | Arm® Cortex®-M55 CPU  | All      |
+| Arm® Corstone™-300-U55    | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55 | All      |
+| Arm® Corstone™-300-U65    | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U65 | All      |
+| Arm® Corstone™-310    | Virtual or physical | Arm® Cortex®-M85 CPU  | All      |
+| Arm® Corstone™-310    | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U55  | All      |
+| Arm® Corstone™-310-U65    | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U65 NPU | All      |
 | Alif™ Ensemble™ E7 AI/ML Kit | Physical board      | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55 NPU | All      |
 | STM32® F746G-Discovery| Physical board      | Arm® Cortex®-M7 CPU                           | KWS      |
 | NXP® FRDM-K64F        | Physical board      | Arm® Cortex®-M4 CPU                           | KWS      |
@@ -188,7 +192,7 @@ a physical hardware board.
 
 - When using a Fixed Virtual Platform installed locally:
   ```shell
-  $ <path_to_installed_FVP> -a ./out/kws/AVH-SSE-300-U55/Debug/kws.Debug+AVH-SSE-300-U55.axf -C ethosu.num_macs=256
+  $ <path_to_installed_FVP> -a ./out/kws/AVH-SSE-300-U55/Debug/kws.Debug+AVH-SSE-300-U55.axf -f ./FVP/FVP_Corstone_SSE-300/fvp_config.txt
   ```
   > **NOTE**: The FVP defaults to running 128 MAC configuration for Arm® Ethos™-U55 NPU.
   > However, our default neural network model for the NPU is for 256 MAC configuration.
