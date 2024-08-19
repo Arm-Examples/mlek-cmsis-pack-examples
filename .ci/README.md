@@ -29,24 +29,24 @@ Project file                | Description
 
 The following **targets** are supported respectively implementation is ongoing
 
-Project name                | Target               | Note
-:---------------------------|:---------------------|:--------------
-`kws`                       | `FRDM-K64F`          |
-`kws`                       | `STM32F746-DISCO`    |
-`kws`                       | `Alif-E7-M55-HP`     | Not implemented yet
-`kws`                       | `AVH-SSE-300`        |
-`kws`                       | `AVH-SSE-300-U55`    |
-`kws`                       | `AVH-SSE-300-U65`    |
-`kws`                       | `AVH-SSE-310`        |
-`kws`                       | `AVH-SSE-310-U55`    |
-`kws`                       | `AVH-SSE-310-U65`    |
-`object-detection`          | `AVH-SSE-300`        |
-`object-detection`          | `AVH-SSE-300-U55`    |
-`object-detection`          | `AVH-SSE-300-U65`    |
-`object-detection`          | `AVH-SSE-310`        |
-`object-detection`          | `AVH-SSE-310-U55`    |
-`object-detection`          | `AVH-SSE-310-U65`    |
-`object-detection`          | `Alif-E7-M55-HP`     | Not implemented yet
+Project name                                                               | Target               | Note
+:--------------------------------------------------------------------------|:---------------------|:--------------
+[`kws`](./../kws/kws.cproject.yml)                                         | `FRDM-K64F`          |
+[`kws`](./../kws/kws.cproject.yml)                                         | `STM32F746-DISCO`    |
+[`kws`](./../kws/kws.cproject.yml)                                         | `Alif-E7-M55-HP`     | Not implemented yet
+[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-300`        |
+[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-300-U55`    |
+[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-300-U65`    |
+[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-310`        |
+[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-310-U55`    |
+[`kws`](./../kws/kws.cproject.yml)                                         | `AVH-SSE-310-U65`    |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-300`        |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-300-U55`    |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-300-U65`    |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-310`        |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-310-U55`    |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `AVH-SSE-310-U65`    |
+[`object-detection`](./../object-detection/object-detection.cproject.yml)  | `Alif-E7-M55-HP`     | Not implemented yet
 
 ## GitHub Actions
 
