@@ -1,4 +1,4 @@
-name: FVP   # Build and execution test
+name: Build & Execute (BE) AVH targets   # Build and execution test
 on:
   workflow_dispatch:
 #  pull_request:
@@ -9,7 +9,7 @@ on:
 #    - cron: '00 20 * * 6'
 
 jobs:
-  Test:                     # Install tools, build
+  BE:                     # Install tools, build, and execute
     strategy:
 
       matrix:
