@@ -3,6 +3,7 @@
 [![Hardware build test](https://img.shields.io/github/actions/workflow/status/Arm-Examples/mlek-cmsis-pack-examples/Hardware-CI.yml?logo=arm&logoColor=0091bd&label=Hardware%20build%20test)](./.github/workflows/Hardware-CI.yml)
 
 # CMSIS-Pack based Machine Learning Examples
+[![CMSIS Compliance](https://img.shields.io/github/actions/workflow/status/Arm-Examples/mlek-cmsis-pack-examples/ci.yml?logo=arm&logoColor=0091bd&label=CMSIS%20Compliance)](https://www.keil.arm.com/cmsis) 
 
 - [CMSIS-Pack based Machine Learning Examples](#cmsis-pack-based-machine-learning-examples)
 - [Introduction](#introduction)
