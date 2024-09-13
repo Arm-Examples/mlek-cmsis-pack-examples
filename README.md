@@ -2,11 +2,8 @@
 [![AVH build and execution test](https://img.shields.io/github/actions/workflow/status/Arm-Examples/mlek-cmsis-pack-examples/AVH-FVP-CI.yml?logo=arm&logoColor=0091bd&label=AVH%20build%20and%20execution%20test)](/.github/workflows/AVH-FVP-CI.yml)
 [![Hardware build test](https://img.shields.io/github/actions/workflow/status/Arm-Examples/mlek-cmsis-pack-examples/Hardware-CI.yml?logo=arm&logoColor=0091bd&label=Hardware%20build%20test)](./.github/workflows/Hardware-CI.yml)
 
-# AVH-Hello
-
 # CMSIS-Pack based Machine Learning Examples
 
-- [AVH-Hello](#avh-hello)
 - [CMSIS-Pack based Machine Learning Examples](#cmsis-pack-based-machine-learning-examples)
 - [Introduction](#introduction)
   - [Examples](#examples)
