@@ -30,18 +30,18 @@ jobs:
 
       matrix:
         target: [
-          {proj: kws,               board: AVH-SSE-300,      model: FVP_Corstone_SSE-300,            uart: mps3_board.uart0},
-          {proj: kws,               board: AVH-SSE-300-U55,  model: FVP_Corstone_SSE-300_Ethos-U55,  uart: mps3_board.uart0},
-          {proj: kws,               board: AVH-SSE-300-U65,  model: FVP_Corstone_SSE-300_Ethos-U65,  uart: mps3_board.uart0},
-          {proj: kws,               board: AVH-SSE-310,      model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
-          {proj: kws,               board: AVH-SSE-310-U55,  model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
-          {proj: kws,               board: AVH-SSE-310-U65,  model: FVP_Corstone_SSE-310_Ethos-U65,  uart: mps3_board.uart0},
-          {proj: object-detection,  board: AVH-SSE-300,      model: FVP_Corstone_SSE-300,            uart: mps3_board.uart0},
-          {proj: object-detection,  board: AVH-SSE-300-U55,  model: FVP_Corstone_SSE-300_Ethos-U55,  uart: mps3_board.uart0},
-          {proj: object-detection,  board: AVH-SSE-300-U65,  model: FVP_Corstone_SSE-300_Ethos-U65,  uart: mps3_board.uart0},
-          {proj: object-detection,  board: AVH-SSE-310,      model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
-          {proj: object-detection,  board: AVH-SSE-310-U55,  model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
-          {proj: object-detection,  board: AVH-SSE-310-U65,  model: FVP_Corstone_SSE-310_Ethos-U65,  uart: mps3_board.uart0}
+          {proj: kws,               board: Corstone-300,      model: FVP_Corstone_SSE-300,            uart: mps3_board.uart0},
+          {proj: kws,               board: Corstone-300-U55,  model: FVP_Corstone_SSE-300_Ethos-U55,  uart: mps3_board.uart0},
+          {proj: kws,               board: Corstone-300-U65,  model: FVP_Corstone_SSE-300_Ethos-U65,  uart: mps3_board.uart0},
+          {proj: kws,               board: Corstone-310,      model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
+          {proj: kws,               board: Corstone-310-U55,  model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
+          {proj: kws,               board: Corstone-310-U65,  model: FVP_Corstone_SSE-310_Ethos-U65,  uart: mps3_board.uart0},
+          {proj: object-detection,  board: Corstone-300,      model: FVP_Corstone_SSE-300,            uart: mps3_board.uart0},
+          {proj: object-detection,  board: Corstone-300-U55,  model: FVP_Corstone_SSE-300_Ethos-U55,  uart: mps3_board.uart0},
+          {proj: object-detection,  board: Corstone-300-U65,  model: FVP_Corstone_SSE-300_Ethos-U65,  uart: mps3_board.uart0},
+          {proj: object-detection,  board: Corstone-310,      model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
+          {proj: object-detection,  board: Corstone-310-U55,  model: FVP_Corstone_SSE-310,            uart: mps3_board.uart0},
+          {proj: object-detection,  board: Corstone-310-U65,  model: FVP_Corstone_SSE-310_Ethos-U65,  uart: mps3_board.uart0}
         ]
 
       fail-fast: false
