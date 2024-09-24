@@ -19,7 +19,7 @@
   - [Launch project in Visual Studio Code](#launch-project-in-visual-studio-code)
   - [Download Software Packs](#download-software-packs)
   - [Generate and build the project](#generate-and-build-the-project)
-  - [Execute Project](#execute-project)
+  - [Run the project](#run-the-project)
     - [Working with Virtual Streaming Interface](#working-with-virtual-streaming-interface)
   - [Application output](#application-output)
 - [Trademarks](#trademarks)
@@ -48,7 +48,7 @@ Target platforms supported:
 | Arm® Corstone™-300-U55    | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55 | All      |
 | Arm® Corstone™-300-U65    | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U65 | All      |
 | Arm® Corstone™-310    | Virtual or physical | Arm® Cortex®-M85 CPU  | All      |
-| Arm® Corstone™-310    | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U55  | All      |
+| Arm® Corstone™-310-U55    | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U55  | All      |
 | Arm® Corstone™-310-U65    | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U65 NPU | All      |
 | Alif™ Ensemble™ E7 AI/ML Kit | Physical board      | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55 NPU | All      |
 | STM32® F746G-Discovery| Physical board      | Arm® Cortex®-M7 CPU                           | KWS      |
@@ -157,11 +157,12 @@ $ cpackget add -f packlist.txt
 
 ## Generate and build the project
 
-Use the CMSIS tab in the Activity Bar to build, run and debug the use case samples for a particular target type.
+Use the CMSIS tab in the Activity Bar to build, run and debug the use case samples for a particular target type. Click on the cog
+wheel to open the "Manage Solution" dialog that lets you select the target and project(s) you want to build and run:
 
-![](docs/02-build-run.png)
+![](./docs/manage_solution.png)
 
-Simply use the drop-down menus to specify your build, then click the Build button.  The output should look similar to the following:
+The build output should look similar to the following:
 
 ```log
  *  Executing task: Workspace: cmsis-csolution.build: Build
@@ -210,14 +211,17 @@ Build complete
 
 The built artifacts will be located under the `out/` directory in the project root.
 
-## Execute Project
+## Run the project
 
-The project is configured for execution on Arm Virtual Hardware which removes the requirement for
-a physical hardware board.
+The project is configured for execution on [Arm Virtual Hardware (Fixed Virtual Platform)](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/+/HEAD/docs/sections/deployment.md#fixed-virtual-platform) which removes the requirement for a physical hardware board.
 
-- When using a Fixed Virtual Platform (FVP) installed locally:
+- When using a Fixed Virtual Platform (FVP), run it via:
   ```shell
-  $ <path_to_installed_FVP> -a ./out/kws/AVH-SSE-300-U55/Debug/kws.Debug+AVH-SSE-300-U55.axf -f ./FVP/FVP_Corstone_SSE-300/fvp_config.txt
+  $ <name_of_the_FVP> -a ./out/kws/Corstone-300-U55/Debug/kws.axf -f ./FVP/FVP_Corstone_SSE-300_Ethos-U55/fvp_config.txt
+  ```
+  For example:
+  ```
+  $ FVP_Corstone_SSE-300_Ethos-U55 -a ./out/kws/Corstone-300-U55/Debug/kws.axf -f ./FVP/FVP_Corstone_SSE-300_Ethos-U55/fvp_config.txt
   ```
   > **NOTE**: The FVP defaults to running 128 MAC configuration for Arm® Ethos™-U55 NPU.
   > However, our default neural network model for the NPU is for 256 MAC configuration.
@@ -345,7 +349,6 @@ The output is different for the two example applications:
     the highest confidence score and the associated keyword label.
 
 For STM32F746G-DISCO board, the LCD is also used to display the last keyword detected.
-
 
 # Trademarks
 

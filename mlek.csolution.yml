@@ -52,36 +52,41 @@ solution:
       optimize: speed
 
   target-types:
-    - type: AVH-SSE-300
+    - type: Corstone-300
       board: ARM::V2M-MPS3-SSE-300-FVP
       device: ARM::SSE-300-MPS3
       define:
         - CORSTONE300_FVP
 
-    - type: AVH-SSE-300-U55
+    - type: Corstone-300-U55
       board: ARM::V2M-MPS3-SSE-300-FVP
       device: ARM::SSE-300-MPS3
       define:
         - ETHOSU55
         - CORSTONE300_FVP
 
-    - type: AVH-SSE-310
+    - type: Corstone-300-U65
+      board: ARM::V2M-MPS3-SSE-300-FVP
+      device: ARM::SSE-300-MPS3
+      define:
+        - ETHOSU65
+        - CORSTONE300_FVP
+
+    - type: Corstone-310
       board: ARM::V2M-MPS3-SSE-310
       device: ARM::SSE-310-MPS3_FVP
 
-    - type: AVH-SSE-310-U55
+    - type: Corstone-310-U55
       board: ARM::V2M-MPS3-SSE-310
       device: ARM::SSE-310-MPS3_FVP
       define:
         - ETHOSU55
 
-    - type: FRDM-K64F
-      board: NXP::FRDM-K64F
-      device: MK64FN1M0VLL12
-
-    - type: STM32F746-DISCO
-      board: STMicroelectronics::STM32F746G-Discovery
-      device: STM32F746NGHx
+    - type: Corstone-310-U65
+      board: ARM::V2M-MPS3-SSE-310
+      device: ARM::SSE-310-MPS3_FVP
+      define:
+        - ETHOSU65
 
     - type: Alif-E7-M55-HP
       board: Alif Semiconductor::DevKit-E7
@@ -97,52 +102,45 @@ solution:
         - ETHOSU55
         - USART_DRV_NUM: 4
 
-    # NOTE: Currently Keil Studio Cloud doesn't allow switching between different NPU configurations.
-    #       Applications produced by this build will only work if the FVP is run manually.
-    - type: AVH-SSE-300-U65
-      board: ARM::V2M-MPS3-SSE-300-FVP
-      device: ARM::SSE-300-MPS3
-      define:
-        - ETHOSU65
-        - CORSTONE300_FVP
+    - type: STM32F746-DISCO
+      board: STMicroelectronics::STM32F746G-Discovery
+      device: STM32F746NGHx
 
-    - type: AVH-SSE-310-U65
-      board: ARM::V2M-MPS3-SSE-310
-      device: ARM::SSE-310-MPS3_FVP
-      define:
-        - ETHOSU65
+    - type: FRDM-K64F
+      board: NXP::FRDM-K64F
+      device: MK64FN1M0VLL12
 
   projects:
     # Object detection use case
     - project: ./object-detection/object-detection.cproject.yml
       for-context:
-        - +AVH-SSE-300-U65
-        - +AVH-SSE-310-U65
-        - +AVH-SSE-300-U55
-        - +AVH-SSE-310-U55
-        - +AVH-SSE-300
-        - +AVH-SSE-310
+        - +Corstone-300-U65
+        - +Corstone-310-U65
+        - +Corstone-300-U55
+        - +Corstone-310-U55
+        - +Corstone-300
+        - +Corstone-310
         - +Alif-E7-M55-HP
 
     # Object detection with Virtual Streaming Interface (VSI) support
     - project: ./object-detection/object-detection-vsi.cproject.yml
       for-context:
-        - +AVH-SSE-300-U65
-        - +AVH-SSE-310-U65
-        - +AVH-SSE-300-U55
-        - +AVH-SSE-310-U55
-        - +AVH-SSE-300
-        - +AVH-SSE-310
+        - +Corstone-300-U65
+        - +Corstone-310-U65
+        - +Corstone-300-U55
+        - +Corstone-310-U55
+        - +Corstone-300
+        - +Corstone-310
 
     # Keyword Spotting (KWS) use case
     - project: ./kws/kws.cproject.yml
       for-context:
-        - +AVH-SSE-300-U65
-        - +AVH-SSE-310-U65
-        - +AVH-SSE-300-U55
-        - +AVH-SSE-310-U55
-        - +AVH-SSE-300
-        - +AVH-SSE-310
+        - +Corstone-300-U65
+        - +Corstone-310-U65
+        - +Corstone-300-U55
+        - +Corstone-310-U55
+        - +Corstone-300
+        - +Corstone-310
         - +FRDM-K64F
         - +STM32F746-DISCO
         - +Alif-E7-M55-HE
