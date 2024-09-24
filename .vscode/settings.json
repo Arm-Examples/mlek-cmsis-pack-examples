@@ -1,0 +1,5 @@
+{
+    "clangd.arguments": [
+        "--compile-commands-dir=/Users/chrsei01/02_Git/Arm-Examples/mlek-cmsis-pack-examples/out/object-detection/Corstone-300/Debug"
+    ]
+}

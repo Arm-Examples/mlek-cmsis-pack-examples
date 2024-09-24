@@ -63,14 +63,6 @@
             }
         },
         {
-            "type": "embedded-debug.flash",
-            "serialNumber": "${command:device-manager.getSerialNumber}",
-            "program": "${command:cmsis-csolution.getBinaryFile}",
-            "cmsisPack": "${command:device-manager.getDevicePack}",
-            "problemMatcher": [],
-            "label": "embedded-debug.flash: Flash Device"
-        },
-        {
             "type": "cmsis-csolution.build",
             "solution": "${command:cmsis-csolution.getSolutionPath}",
             "project": "${command:cmsis-csolution.getProjectPath}",
@@ -79,6 +71,16 @@
             "rebuild": false,
             "problemMatcher": [],
             "label": "cmsis-csolution.build: Build"
+        },
+        {
+            "type": "arm-debugger.flash",
+            "serialNumber": "${command:device-manager.getSerialNumber}",
+            "program": "${command:arm-debugger.getApplicationFile}",
+            "cmsisPack": "${command:cmsis-csolution.getTargetPack}",
+            "deviceName": "${command:cmsis-csolution.getDeviceName}",
+            "processorName": "${command:cmsis-csolution.getProcessorName}",
+            "problemMatcher": [],
+            "label": "arm-debugger.flash: Flash Device"
         }
     ],
 
