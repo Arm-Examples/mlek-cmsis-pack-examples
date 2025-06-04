@@ -31,7 +31,7 @@
 # Introduction
 
 This repository contains Machine Learning (ML) examples using the CMSIS-Pack from
-[ML Embedded Evaluation Kit](https://review.mlplatform.org/plugins/gitiles/ml/ethos-u/ml-embedded-evaluation-kit/+/refs/heads/main).
+[ML Embedded Evaluation Kit](https://gitlab.arm.com/artificial-intelligence/ethos-u/ml-embedded-evaluation-kit).
 
 ## Examples
 
