@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -43,7 +43,7 @@
 namespace arm {
 namespace app {
     /* Tensor arena buffer */
-    static uint8_t tensorArena[ACTIVATION_BUF_SZ] ACTIVATION_BUF_ATTRIBUTE;
+    static uint8_t activationBuf[ACTIVATION_BUF_SZ] ACTIVATION_BUF_ATTRIBUTE;
 
     /* Optional getter function for the model pointer and its size. */
     namespace kws {
@@ -63,39 +63,42 @@ int main()
     BoardInit();
 
     /* Model object creation and initialisation. */
-    arm::app::MicroNetKwsModel model;
-    if (!model.Init(arm::app::tensorArena,
-                    sizeof(arm::app::tensorArena),
-                    arm::app::kws::GetModelPointer(),
-                    arm::app::kws::GetModelLen())) {
+    arm::app::fwk::tflm::MicroNetKwsModel model;
+    arm::app::fwk::iface::MemoryRegion modelMem{arm::app::kws::GetModelPointer(),
+                                                arm::app::kws::GetModelLen()};
+    arm::app::fwk::iface::MemoryRegion computeMem{arm::app::activationBuf,
+                                                  sizeof(arm::app::activationBuf)};
+
+    /* Load the model. */
+    if (!model.Init(computeMem, modelMem)) {
         printf_err("Failed to initialise model\n");
         return 1;
     }
 
     constexpr int minTensorDims = static_cast<int>(
-        (arm::app::MicroNetKwsModel::ms_inputRowsIdx > arm::app::MicroNetKwsModel::ms_inputColsIdx)
-            ? arm::app::MicroNetKwsModel::ms_inputRowsIdx
-            : arm::app::MicroNetKwsModel::ms_inputColsIdx);
+        (arm::app::fwk::tflm::MicroNetKwsModel::ms_inputRowsIdx > arm::app::fwk::tflm::MicroNetKwsModel::ms_inputColsIdx)
+            ? arm::app::fwk::tflm::MicroNetKwsModel::ms_inputRowsIdx
+            : arm::app::fwk::tflm::MicroNetKwsModel::ms_inputColsIdx);
 
     const auto mfccFrameLength = 640;
     const auto mfccFrameStride = 320;
     const auto scoreThreshold  = 0.7;
 
     /* Get Input and Output tensors for pre/post processing. */
-    TfLiteTensor* inputTensor  = model.GetInputTensor(0);
-    TfLiteTensor* outputTensor = model.GetOutputTensor(0);
-    if (!inputTensor->dims) {
+    auto inputTensor  = model.GetInputTensor(0);
+    auto outputTensor = model.GetOutputTensor(0);
+    const auto inputShape = inputTensor->Shape();
+    if(inputShape.empty()) {
         printf_err("Invalid input tensor dims\n");
         return 1;
-    } else if (inputTensor->dims->size < minTensorDims) {
+    } else if (inputShape.size() < minTensorDims) {
         printf_err("Input tensor dimension should be >= %d\n", minTensorDims);
         return 1;
     }
 
     /* Get input shape for feature extraction. */
-    TfLiteIntArray* inputShape     = model.GetInputShape(0);
-    const uint32_t numMfccFeatures = inputShape->data[arm::app::MicroNetKwsModel::ms_inputColsIdx];
-    const uint32_t numMfccFrames   = inputShape->data[arm::app::MicroNetKwsModel::ms_inputRowsIdx];
+    const uint32_t numMfccFeatures = inputShape[arm::app::fwk::tflm::MicroNetKwsModel::ms_inputColsIdx];
+    const uint32_t numMfccFrames   = inputShape[arm::app::fwk::tflm::MicroNetKwsModel::ms_inputRowsIdx];
 
     /* We expect to be sampling 1 second worth of data at a time.
      * NOTE: This is only used for time stamp calculation. */

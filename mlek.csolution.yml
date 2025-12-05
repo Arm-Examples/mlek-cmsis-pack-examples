@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its
+# SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
 # affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -14,26 +14,26 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.4.0/tools/projmgr/schemas/csolution.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.12.0/tools/projmgr/schemas/csolution.schema.json
 
 solution:
-  created-for: cmsis-toolbox@2.4.0
+  created-for: CMSIS-Toolbox@2.12.0
   compiler: AC6
   cdefault: # use default setup of toolchain specific controls.
 
   packs:
-    - pack: ARM::CMSIS@6.1.0
-    - pack: ARM::CMSIS-DSP@1.16.0
-    - pack: ARM::CMSIS-NN@6.0.0
+    - pack: ARM::CMSIS@6.2.0
+    - pack: ARM::CMSIS-DSP@1.16.2
+    - pack: ARM::CMSIS-NN@7.0.0
 
     - pack: ARM::ethos-u-core-driver@1.25.2
-    - pack: tensorflow::flatbuffers@1.24.8
-    - pack: tensorflow::gemmlowp@1.24.8
-    - pack: tensorflow::kissfft@1.24.8
-    - pack: tensorflow::ruy@1.24.8
-    - pack: tensorflow::tensorflow-lite-micro@1.24.8
+    - pack: tensorflow::flatbuffers@1.25.2
+    - pack: tensorflow::gemmlowp@1.25.2
+    - pack: tensorflow::kissfft@1.25.2
+    - pack: tensorflow::ruy@1.25.2
+    - pack: tensorflow::tensorflow-lite-micro@1.25.2
 
-    - pack: ARM::ml-embedded-eval-kit-uc-api@24.8.0
+    - pack: ARM::ml-embedded-eval-kit-uc-api@25.12.0
 
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
     - pack: ARM::V2M_MPS3_SSE_310_BSP@1.4.0

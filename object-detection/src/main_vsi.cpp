@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2021-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2021-2025 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -46,7 +46,7 @@
 namespace arm {
 namespace app {
     /* Tensor arena buffer */
-    static uint8_t tensorArena[ACTIVATION_BUF_SZ] ACTIVATION_BUF_ATTRIBUTE;
+    static uint8_t activationBuf[ACTIVATION_BUF_SZ] ACTIVATION_BUF_ATTRIBUTE;
 
     /* Image buffer */
     static uint8_t ImageBuf[IMAGE_SIZE] __attribute__((section("image_buf"), aligned(16)));
@@ -85,33 +85,41 @@ int main()
     BoardInit();
 
     /* Model object creation and initialisation. */
-    arm::app::YoloFastestModel model;
-    if (!model.Init(arm::app::tensorArena,
-                    sizeof(arm::app::tensorArena),
-                    arm::app::object_detection::GetModelPointer(),
-                    arm::app::object_detection::GetModelLen())) {
+    arm::app::fwk::tflm::YoloFastestModel model;
+
+    arm::app::fwk::iface::MemoryRegion modelMem{arm::app::object_detection::GetModelPointer(),
+                                                arm::app::object_detection::GetModelLen()};
+    arm::app::fwk::iface::MemoryRegion computeMem{arm::app::activationBuf,
+                                                  sizeof(arm::app::activationBuf)};
+
+    if (!model.Init(computeMem, modelMem)) {
         printf_err("Failed to initialise model\n");
         return 1;
     }
 
     auto initialImgIdx = 0;
 
-    TfLiteTensor* inputTensor   = model.GetInputTensor(0);
-    TfLiteTensor* outputTensor0 = model.GetOutputTensor(0);
-    TfLiteTensor* outputTensor1 = model.GetOutputTensor(1);
+    constexpr int minTensorDims = static_cast<int>(
+    (arm::app::fwk::tflm::YoloFastestModel::ms_inputRowsIdx > arm::app::fwk::tflm::YoloFastestModel::ms_inputColsIdx)
+        ? arm::app::fwk::tflm::YoloFastestModel::ms_inputRowsIdx
+        : arm::app::fwk::tflm::YoloFastestModel::ms_inputColsIdx);
 
-    if (!inputTensor->dims) {
+    auto inputTensor   = model.GetInputTensor(0);
+    auto outputTensor0 = model.GetOutputTensor(0);
+    auto outputTensor1 = model.GetOutputTensor(1);
+
+    const auto inputShape = inputTensor->Shape();
+
+    if(inputShape.empty()) {
         printf_err("Invalid input tensor dims\n");
         return 1;
-    } else if (inputTensor->dims->size < 3) {
-        printf_err("Input tensor dimension should be >= 3\n");
+    } else if (inputShape.size() < minTensorDims) {
+        printf_err("Input tensor dimension should be >= %d\n", minTensorDims);
         return 1;
     }
 
-    TfLiteIntArray* inputShape = model.GetInputShape(0);
-
-    const int inputImgCols = inputShape->data[arm::app::YoloFastestModel::ms_inputColsIdx];
-    const int inputImgRows = inputShape->data[arm::app::YoloFastestModel::ms_inputRowsIdx];
+    const int inputImgCols = inputShape[arm::app::fwk::tflm::YoloFastestModel::ms_inputColsIdx];
+    const int inputImgRows = inputShape[arm::app::fwk::tflm::YoloFastestModel::ms_inputRowsIdx];
 
     /* Set up pre and post-processing. */
     arm::app::DetectorPreProcess preProcess =
@@ -127,8 +135,8 @@ int main()
     arm::app::DetectorPostProcess postProcess =
         arm::app::DetectorPostProcess(outputTensor0, outputTensor1, results, postProcessParams);
 
-    const size_t imgSz = inputTensor->bytes < IMAGE_SIZE ?
-                         inputTensor->bytes : IMAGE_SIZE;
+    const size_t imgSz = inputTensor->Bytes() < IMAGE_SIZE ?
+                         inputTensor->Bytes() : IMAGE_SIZE;
 
     if (sizeof(arm::app::ImageBuf) < imgSz) {
         printf_err("Image buffer is insufficient\n");
@@ -179,7 +187,7 @@ int main()
         return 1;
     }
 
-    auto dstPtr = static_cast<uint8_t*>(inputTensor->data.uint8);
+    auto dstPtr = static_cast<uint8_t*>(inputTensor->GetData<uint8_t>());
 
     uint32_t imgCount = 0;
     void    *imgFrame;
