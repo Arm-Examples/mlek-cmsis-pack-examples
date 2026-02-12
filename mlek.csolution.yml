@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
+# SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its
 # affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -33,7 +33,7 @@ solution:
     - pack: tensorflow::ruy@1.25.2
     - pack: tensorflow::tensorflow-lite-micro@1.25.2
 
-    - pack: ARM::ml-embedded-eval-kit-uc-api@25.12.0
+    - pack: ARM::ml-embedded-eval-kit-uc-api@25.12.1
 
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
     - pack: ARM::V2M_MPS3_SSE_310_BSP@1.4.0
