@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright 2024 Arm Limited and/or its
+# SPDX-FileCopyrightText: Copyright 2024-2026 Arm Limited and/or its
 # affiliates <open-source-office@arm.com>
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -32,7 +32,7 @@ jobs:
         target: [
           {proj: kws, board: FRDM-K64F},
           {proj: kws, board: STM32F746-DISCO}
-          # {proj: kws, board: Alif-E7-M55-HP},
+          # {proj: kws, board: Alif-E7-M55-HE},
           # {proj: object-detection, board: Alif-E7-M55-HP}
         ]
 
@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Install tools
         uses: ARM-software/cmsis-actions/vcpkg@v1
@@ -58,7 +58,7 @@ jobs:
 
       - name: Upload build Artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.target.proj }}_${{ matrix.target.board }}_AC6
           path: |
