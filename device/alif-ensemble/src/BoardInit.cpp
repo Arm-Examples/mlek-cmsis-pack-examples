@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2023-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2023-2024, 2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -22,6 +22,8 @@
 extern "C" {
 #endif // defined(__cplusplus)
 
+#include "mlek/log/log_macros.h"
+
 #include "RTE_Components.h"
 #include "RTE_Device.h"
 #include CMSIS_device_header
@@ -29,7 +31,6 @@ extern "C" {
 #include "Driver_Common.h"
 #include "ethosu_driver.h"
 #include "uart_stdout.h"
-#include "log_macros.h"
 #include <stdio.h>
 
 #if defined(M55_HP)

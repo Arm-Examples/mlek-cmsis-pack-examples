@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2021-2023 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2021-2023, 2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -21,9 +21,11 @@
 #if defined(__cplusplus)
 extern "C" {
 #endif // defined(__cplusplus)
+
+#include "mlek/log/log_macros.h"
+
 #include "RTE_Components.h"
 #include CMSIS_device_header
-#include "log_macros.h"
 #include "stm32746g_discovery.h"
 #include "stm32746g_discovery_audio.h"
 #include "stm32f7xx_hal.h"

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -24,21 +24,22 @@
  * the memory requirements for TensorFlow Lite Micro framework and
  * some heap for the API runtime.
  */
-#include "AudioUtils.hpp"
-#include "BufAttributes.hpp" /* Buffer attributes to be applied */
-#include "Classifier.hpp"    /* Classifier for the result */
-#include "InputFiles.hpp"    /* Baked-in input (not needed for live data) */
-#include "KwsProcessing.hpp" /* Pre and Post Process */
-#include "KwsResult.hpp"
-#include "Labels.hpp" /* Label Data for the model */
-#include "MicroNetKwsMfcc.hpp"
-#include "MicroNetKwsModel.hpp" /* Model API */
+#include "mlek/common/AudioSlidingWindow.hpp"
+#include "mlek/common/Classifier.hpp"               /* Classifier for the result */
+#include "mlek/use_case/kws/KwsProcessing.hpp"      /* Pre and Post Process */
+#include "mlek/use_case/kws/KwsResult.hpp"
+#include "mlek/use_case/kws/MicroNetKwsMfcc.hpp"
+#include "mlek/fwk/tflm/MicroNetKwsModel.hpp"       /* Model API */
+#include "mlek/log/log_macros.h"                    /* Logging macros (optional) */
+
+#include "BufAttributes.hpp"    /* Buffer attributes to be applied */
+#include "InputFiles.hpp"       /* Baked-in input (not needed for live data) */
+#include "Labels.hpp"           /* Label Data for the model */
 
 /* Platform dependent files */
-#include "RTE_Components.h"  /* Provides definition for CMSIS_device_header */
-#include CMSIS_device_header /* Gives us IRQ num, base addresses. */
+#include "RTE_Components.h"   /* Provides definition for CMSIS_device_header */
+#include CMSIS_device_header  /* Gives us IRQ num, base addresses. */
 #include "BoardInit.hpp"      /* Board initialisation */
-#include "log_macros.h"      /* Logging macros (optional) */
 
 namespace arm {
 namespace app {
