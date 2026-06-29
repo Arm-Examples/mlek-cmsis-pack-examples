@@ -56,7 +56,12 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
+
+    - name: Setup Python 3.13
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.13'
 
     - name: Install tools
       uses: ARM-software/cmsis-actions/vcpkg@v1
