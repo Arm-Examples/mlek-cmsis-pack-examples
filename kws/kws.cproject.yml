@@ -1,4 +1,4 @@
-#  SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
+#  SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its
 #  affiliates <open-source-office@arm.com>
 #  SPDX-License-Identifier: Apache-2.0
 #
@@ -145,6 +145,5 @@ project:
         - +Alif-E7-M55-HE
 
   components:
-    - component: ARM::ML Eval Kit:ML Framework:TFLM
-    - component: ARM::ML Eval Kit:Voice:Keyword spotting
-
+    - component: ARM::Machine Learning:MLEK:FwkImpl&TensorFlowLiteMicro
+    - component: ARM::Machine Learning:MLEK:UseCase&Keyword spotting

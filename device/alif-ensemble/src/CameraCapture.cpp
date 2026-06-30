@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2023-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2023-2024, 2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -35,12 +35,13 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#include "mlek/log/log_macros.h"
+
 #include "RTE_Components.h"
 #include CMSIS_device_header
 #include "Driver_CPI.h"
 #include "Driver_GPIO.h"
 #include "pinconf.h"
-#include "log_macros.h"
 
 extern ARM_DRIVER_CPI Driver_CPI;
 

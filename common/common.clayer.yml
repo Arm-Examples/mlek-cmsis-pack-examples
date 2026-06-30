@@ -1,4 +1,4 @@
-#  SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
+#  SPDX-FileCopyrightText: Copyright 2022-2026 Arm Limited and/or its
 #  affiliates <open-source-office@arm.com>
 #  SPDX-License-Identifier: Apache-2.0
 #
@@ -37,6 +37,7 @@ layer:
     - component: tensorflow::Data Processing:Math:ruy
     - component: tensorflow::Machine Learning:TensorFlow:Kernel Utils
     - component: tensorflow::Machine Learning:TensorFlow:Testing
-    - component: ARM::ML Eval Kit:Common:API
-    - component: ARM::ML Eval Kit:Common:Log
-    - component: ARM::ML Eval Kit:Common:Math
+    - component: ARM::Machine Learning:MLEK:CommonUtils
+    - component: ARM::Machine Learning:MLEK:FwkInterface
+    - component: ARM::Machine Learning:MLEK:Log
+    - component: ARM::Machine Learning:MLEK:Math

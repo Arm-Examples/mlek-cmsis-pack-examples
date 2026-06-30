@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2022-2024, 2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -22,12 +22,13 @@ extern "C" {
 
 #include "gpio_wrapper.h"
 
+#include "mlek/log/log_macros.h"
+
 #include "RTE_Components.h"
 #include "RTE_Device.h"
 #include CMSIS_device_header
 
 #include "Driver_GPIO.h"
-#include "log_macros.h"
 
 extern ARM_DRIVER_GPIO Driver_GPIO6;
 extern ARM_DRIVER_GPIO Driver_GPIO7;
