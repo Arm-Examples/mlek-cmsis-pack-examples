@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2021-2025 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2021-2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -24,19 +24,20 @@
  * the memory requirements for TensorFlow Lite Micro framework and
  * some heap for the API runtime.
  */
-#include "BufAttributes.hpp" /* Buffer attributes to be applied */
-#include "Classifier.hpp"    /* Classifier for the result */
-#include "DetectionResult.hpp"
-#include "DetectorPostProcessing.hpp" /* Post Process */
-#include "DetectorPreProcessing.hpp"  /* Pre Process */
-#include "YoloFastestModel.hpp"       /* Model API */
-#include "video_drv.h"                /* Video Driver API */
+#include "mlek/common/Classifier.hpp"                                          /* Classifier for the result */
+#include "mlek/use_case/object_detection/DetectionResult.hpp"
+#include "mlek/use_case/object_detection/DetectorPostProcessing.hpp"           /* Post Process */
+#include "mlek/use_case/object_detection/DetectorPreProcessing.hpp"            /* Pre Process */
+#include "mlek/fwk/tflm/YoloFastestModel.hpp"                                  /* Model API */
+#include "mlek/log/log_macros.h"                                               /* Logging macros (optional) */
+
+#include "BufAttributes.hpp"    /* Buffer attributes to be applied */
+#include "video_drv.h"          /* Video Driver API */
 
 /* Platform dependent files */
-#include "RTE_Components.h"  /* Provides definition for CMSIS_device_header */
-#include CMSIS_device_header /* Gives us IRQ num, base addresses. */
+#include "RTE_Components.h"   /* Provides definition for CMSIS_device_header */
+#include CMSIS_device_header  /* Gives us IRQ num, base addresses. */
 #include "BoardInit.hpp"      /* Board initialisation */
-#include "log_macros.h"      /* Logging macros (optional) */
 
 
 #define IMAGE_WIDTH     192

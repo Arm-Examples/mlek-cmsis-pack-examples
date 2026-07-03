@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2022-2024, 2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -22,7 +22,7 @@
 extern "C" {
 #endif // defined(__cplusplus)
 
-#include "log_macros.h"
+#include "mlek/log/log_macros.h"
 #include "uart_stdout.h"
 
 /* Platform dependent files */

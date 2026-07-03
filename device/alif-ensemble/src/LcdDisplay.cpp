@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2022-2024 Arm Limited and/or its
+ * SPDX-FileCopyrightText: Copyright 2022-2024, 2026 Arm Limited and/or its
  * affiliates <open-source-office@arm.com>
  * SPDX-License-Identifier: Apache-2.0
  *
@@ -22,10 +22,11 @@
 extern "C" {
 #endif // defined(__cplusplus)
 
+#include "mlek/log/log_macros.h"
+
 #include "RTE_Components.h"
 #include "RTE_Device.h"
 #include CMSIS_device_header
-#include "log_macros.h"
 #include "Driver_Common.h"
 #include "Driver_CDC200.h"
 

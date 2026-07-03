@@ -19,6 +19,7 @@
   - [Launch project in Visual Studio Code](#launch-project-in-visual-studio-code)
   - [Download Software Packs](#download-software-packs)
   - [Generate and build the project](#generate-and-build-the-project)
+  - [Command-line builds](#command-line-builds)
   - [Execute Project](#execute-project)
     - [Working with Virtual Streaming Interface](#working-with-virtual-streaming-interface)
       - [Arm MPS3 based FVPs](#arm-mps3-based-fvps)
@@ -47,10 +48,10 @@ Target platforms supported:
 | Name                         | Type                | IP                                            | Examples |
 |------------------------------|---------------------|-----------------------------------------------|----------|
 | Arm® Corstone™-300           | Virtual or physical | Arm® Cortex®-M55 CPU                          | All      |
-| Arm® Corstone™-300-U55       | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55     | All      |
-| Arm® Corstone™-300-U65       | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U65     | All      |
+| Arm® Corstone™-300-U55       | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U55 NPU | All      |
+| Arm® Corstone™-300-U65       | Virtual or physical | Arm® Cortex®-M55 CPU with Arm® Ethos™-U65 NPU | All      |
 | Arm® Corstone™-310           | Virtual or physical | Arm® Cortex®-M85 CPU                          | All      |
-| Arm® Corstone™-310-U55       | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U55     | All      |
+| Arm® Corstone™-310-U55       | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U55 NPU | All      |
 | Arm® Corstone™-310-U65       | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U65 NPU | All      |
 | Arm® Corstone™-315           | Virtual or physical | Arm® Cortex®-M85 CPU                          | All      |
 | Arm® Corstone™-315-U65       | Virtual or physical | Arm® Cortex®-M85 CPU with Arm® Ethos™-U65 NPU | All      |
@@ -60,8 +61,8 @@ Target platforms supported:
 | STM32® F746G-Discovery       | Physical board      | Arm® Cortex®-M7 CPU                           | KWS      |
 | NXP® FRDM-K64F               | Physical board      | Arm® Cortex®-M4 CPU                           | KWS      |
 
-
-Use this import button to open the solution in Keil Studio Cloud: [![Open in Keil Studio](https://img.shields.io/badge/Keil%20Studio-Import-blue?logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAyNS40LjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA0NyAxNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDcgMTQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+DQoJLnN0MHtmaWxsOiNGRkZGRkY7fQ0KPC9zdHlsZT4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00LjcsN2MwLDIuMiwxLjQsNC4xLDMuNSw0LjFjMS44LDAsMy42LTEuNCwzLjYtNC4xYzAtMi44LTEuNy00LjItMy42LTQuMkM2LjIsMi45LDQuNyw0LjcsNC43LDcgTTExLjYsMC41DQoJaDIuOXYxM2gtMi45di0xLjNjLTAuOSwxLjEtMi4zLDEuNy0zLjcsMS43QzQsMTMuOSwxLjgsMTAuNiwxLjgsN2MwLTQuMywyLjctNi45LDYuMS02LjljMS41LDAsMi44LDAuNywzLjcsMS45VjAuNXoiLz4NCjxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xOCwwLjVIMjF2MS4yYzAuMy0wLjQsMC43LTAuOCwxLjItMS4xYzAuNS0wLjMsMS4yLTAuNCwxLjctMC40YzAuOCwwLDEuNiwwLjIsMi4zLDAuNmwtMS4yLDIuOA0KCWMtMC40LTAuMy0xLTAuNC0xLjUtMC40Yy0wLjctMC4xLTEuMywwLjItMS44LDAuN0MyMSw0LjYsMjEsNS45LDIxLDYuOHY2LjdIMThWMC41eiIvPg0KPHBhdGggY2xhc3M9InN0MCIgZD0iTTI4LjIsMC41aDIuOXYxLjJjMC43LTAuOSwxLjktMS42LDMuMS0xLjZjMS4zLDAsMi42LDAuNywzLjIsMS45YzAuOS0xLjIsMi4yLTEuOSwzLjctMS45DQoJQzQyLjcsMCw0NCwwLjksNDQuNywyLjJjMC4yLDAuNCwwLjcsMS40LDAuNywzLjN2OC4xaC0yLjlWNi4zYzAtMS41LTAuMi0yLjEtMC4yLTIuM2MtMC4yLTAuNy0wLjktMS4yLTEuNy0xLjENCgljLTAuNywwLTEuMywwLjMtMS43LDAuOWMtMC41LDAuOC0wLjYsMS45LTAuNiwyLjl2Ni43aC0yLjlWNi4zYzAtMS41LTAuMi0yLjEtMC4yLTIuM2MtMC4yLTAuNy0wLjktMS4yLTEuNy0xLjENCgljLTAuNywwLTEuMywwLjMtMS43LDAuOWMtMC41LDAuOC0wLjYsMS45LTAuNiwyLjl2Ni43aC0yLjlMMjguMiwwLjV6Ii8+DQo8L3N2Zz4NCg==&logoWidth=47)](https://studio.keil.arm.com/?import=https://github.com/Arm-Examples/mlek-cmsis-pack-examples.git)
+All listed Arm® Ethos™-U NPU variants are supported, including Ethos™-U55,
+Ethos™-U65 and Ethos™-U85.
 
 # Overview
 
@@ -72,12 +73,11 @@ and Arm's [ML Embedded Evaluation Kit](https://review.mlplatform.org/plugins/git
 API's. The embedded evaluation kit API pack has ready-to-use machine learning API's for several
 use cases covering typical `voice`, `vibration` and `vision` applications.
 
-Although the primary target platforms for this repository are Arm® Corstone™-300 and Corstone™-310,
-the Keyword spotting (KWS) project can be built for physical targets too. The examples are set
-up to use the NPU (if available) by default with unsupported operators falling back on the CPU.
-Therefore, the neural network model files used for Corstone™-300 and Corstone™-310 have been
-pre-optimised by the [Vela compiler](https://pypi.org/project/ethos-u-vela/) while the files
-used for pure CPU targets are used as they are.
+The examples are set up to use the NPU by default on NPU-enabled targets, with unsupported
+operators falling back on the CPU. The neural network model files used for Arm® Ethos™-U targets
+have been pre-optimised by the [Vela compiler](https://pypi.org/project/ethos-u-vela/) while the
+files used for pure CPU targets are used as they are. The Keyword spotting (KWS) project can be
+built for physical targets too.
 
 ## Object detection
 
@@ -99,11 +99,14 @@ More details about the input for this example can be found [here](https://review
 
 We recommend using [Visual Studio Code IDE](https://code.visualstudio.com/) with the
 [Keil Studio Pack Extension](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack).
-Alternatively, [Keil Studio Cloud](https://studio.keil.arm.com/?import=https://github.com/Arm-Examples/mlek-cmsis-pack-examples.git) can also be used.
 
 Once the IDE has been set up with the extension, it presents an easy to use interface to build
 applications for specific configurations of the different projects and targets from within VS Code,
 and also helps with debugging and flashing.
+
+The extension also configures the repository's `vcpkg` environment. Once that setup has completed,
+the integrated VS Code terminal should have the CMSIS-Toolbox commands, including `cbuild`,
+`csolution` and `cpackget`, available on `PATH`.
 
 For developing on a local host machine, we recommend a Linux based system as we test
 the flow of the instructions in that environment, but a Windows based machine should
@@ -117,7 +120,7 @@ support information and code. A list of available CMSIS-Packs can be found
 
 ## Virtual Streaming Interface
 
-[Virtual Streaming Interface)](https://arm-software.github.io/AVH/main/simulation/html/group__arm__vsi.html)
+[Virtual Streaming Interface](https://arm-software.github.io/AVH/main/simulation/html/group__arm__vsi.html)
 (VSI) is available for certain
 [Fixed Virtual Platform](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms) (FVP) or
 [Arm Virtual Hardware](https://developer.arm.com/Tools%20and%20Software/Arm%20Virtual%20Hardware) (AVH)
@@ -157,7 +160,7 @@ Once `vcpkg` has finished configuring the environment, a prompt will appear to i
 
 Recent versions of CMSIS toolbox will automatically install the missing packs when a project is built.
 
-Alternatively, the packs can be installed manually be opening up a Terminal in Visual Studio Code (Ctrl + Shift + `) and running the following commands:
+Alternatively, the packs can be installed manually by opening up a Terminal in Visual Studio Code (Ctrl + Shift + `) and running the following commands:
 
 ```
 $ csolution list packs -s mlek.csolution.yml -m > packlist.txt
@@ -174,17 +177,16 @@ Simply use the drop-down menus to specify your build, then click the Build butto
 
 ```log
  *  Executing task: cmsis-csolution.build: Build
-> cbuild /home/kshsis01/eco-projects/oss/ML-examples/cmsis-pack-examples/mlek.csolution.yml --update-rte --packs --context object-detection.Release+AVH-SSE-300-U55
-/home/kshsis01/eco-projects/oss/ML-examples/cmsis-pack-examples/mlek.csolution.yml - warning csolution: cproject.yml files should be placed in separate sub-directories
-/home/kshsis01/eco-projects/oss/ML-examples/cmsis-pack-examples/mlek.csolution.yml - warning csolution: cproject.yml files should be placed in separate sub-directories
+> cbuild <repo>/mlek.csolution.yml --update-rte --packs --context object-detection.Release+AVH-SSE-300-U55
 +-----------------------------------------------------------------
 (1/1) Building context: "object-detection.Release+AVH-SSE-300-U55"
+Using AC6 V6.24.0 compiler, from: '<path-to-arm-compiler>/bin'
 Building CMake target 'object-detection.Release+AVH-SSE-300-U55'
-[1/306] Building CXX object CMakeFiles/Group_MainStatic.dir/home/kshsis01/eco-projects/oss/ML-examples/cmsis-pack-examples/object-detection/src/InputFiles.o
-[2/306] Building C object CMakeFiles/Group_Retarget.dir/home/kshsis01/eco-projects/oss/ML-examples/cmsis-pack-examples/device/corstone/src/retarget.o
+[1/345] Building CXX object CMakeFiles/Group_MainStatic.dir/<repo>/object-detection/src/InputFiles.o
+[2/345] Building C object CMakeFiles/Group_Retarget.dir/<repo>/device/corstone/src/retarget.o
 ...
 ...
-[306/306] Linking CXX executable /home/kshsis01/eco-projects/oss/ML-examples/cmsis-pack-examples/out/object-detection/AVH-SSE-300-U55/Release/object-detection.axf
+[345/345] Linking CXX executable <repo>/out/object-detection/AVH-SSE-300-U55/Release/object-detection.axf
 +------------------------------------------------------------
 Build summary: 1 succeeded, 0 failed - Time Elapsed: 00:00:23
 +============================================================
@@ -193,6 +195,41 @@ Build complete
 ```
 
 The built artifacts will be located under the `out/` directory in the project root.
+
+## Command-line builds
+
+Command-line builds use CMSIS-Toolbox. Developers using VS Code should use the integrated terminal
+after the Keil Studio Pack Extension has finished configuring `vcpkg`; the required CMSIS-Toolbox,
+CMake and Ninja tools are then available on `PATH`.
+
+For a standalone terminal, install a recent CMSIS-Toolbox release from the
+[Open-CMSIS-Pack devtools releases](https://github.com/Open-CMSIS-Pack/devtools/releases),
+add its `bin` directory to `PATH`, and point CMSIS-Toolbox at Arm Compiler for Embedded:
+
+```shell
+$ export PATH="${PATH}:/path/to/cmsis-toolbox/bin"
+$ export AC6_TOOLCHAIN_6_24_0=/path/to/ArmCompilerforEmbedded6.24/bin
+```
+
+List all build contexts from the solution:
+
+```shell
+$ cbuild list contexts ./mlek.csolution.yml
+```
+
+Then build a selected context:
+
+```shell
+$ cbuild ./mlek.csolution.yml -c kws.Release+AVH-SSE-300-U55 --update-rte
+$ cbuild ./mlek.csolution.yml -c object-detection.Release+AVH-SSE-300-U55 --update-rte
+```
+
+The same command pattern applies to any context reported by `cbuild list contexts`, including
+the `-U55`, `-U65` and `-U85` NPU variants.
+
+Both commands generate or update RTE files as needed and place build products under `out/`.
+Depending on how CMSIS-Toolbox was installed, `cbuild` may print a `manifest file does not exist`
+warning before the context list or build log; this warning is benign if the context still builds.
 
 ## Execute Project
 
@@ -208,18 +245,8 @@ a physical hardware board.
   > **NOTE**: The FVP defaults to running 128 MAC configuration for Arm® Ethos™-U55 NPU.
   > However, our default neural network model for the NPU is for 256 MAC configuration. The FVP
   > configuration file sets the MAC units to be 256.
-
-- [Keil Studio Cloud](https://studio.keil.arm.com/) integrates also the Arm Virtual Hardware
-  VHT_Corstone_SSE-300_Ethos-U55 model. The steps to use the example are:
-  - Start [Keil Studio Cloud](https://studio.keil.arm.com/) and login to the system using your
-    account.
-  - Drag and drop this directory (cmsis-pack-examples) into the project pane, or use the import
-    button provided above, under [ML-examples](#ml-examples).
-  - Select the *Active Project* from the drop-down - it should show all projects referenced in
-    the `csolution` file.
-  - Select *Target hardware* from the drop-down: **SSE-300 MPS3**
-  - Click **Run project** which executes the project build step and then starts running on Arm
-    Virtual Hardware.
+  > Use the matching FVP, build context, executable path and configuration file for other
+  > supported NPU variants.
 
 > **Note:** Arm Virtual Hardware models are also available on AWS Marketplace.
 
@@ -268,21 +295,20 @@ For Arm Corstone-315 and Arm Corstone-320:
 
 ## Application output
 
-Once the project can be built successfully, the execution on target hardware will show output of
-the application in `Output` window in Keil Studio Cloud. Currently, this includes the following:
-  - Arm® Ethos™-U55 NPU version information
+Once the project can be built successfully, the execution on target hardware will show output from
+the application. Currently, this includes the following:
+  - Arm® Ethos™-U NPU version information
   - Information about model's memory allocation
   - Running inference on specified input
   - Output of inference
   - Simulation information such as simulated time, user time, system time, etc
 
 Note that most applications will redirect their standard output and error streams to a UART module.
-Keil Sudio Cloud has an option to open a serial connection that can be used to monitor these
-streams.
+Use a serial terminal to monitor these streams when running on physical hardware.
 
-For the Alif Semiconductor™ Ensemble™ AI/ML kit boards, the output over UART is wired though port
-J2 (maked PRG_USB). This port exposes two UARTs - one for SE (Secure Enclave) and the other is
-confirable to pass through either UART2 or UART4 using jumpers on J15. For the applications built,
+For the Alif Semiconductor™ Ensemble™ AI/ML kit boards, the output over UART is wired through port
+J2 (marked PRG_USB). This port exposes two UARTs - one for SE (Secure Enclave) and the other is
+configurable to pass through either UART2 or UART4 using jumpers on J15. For the applications built,
 the high performance core uses UART4, and the high efficiency core uses UART2.
 
 J15 setup is shown below:
@@ -384,46 +410,10 @@ into C/C++ arrays to be baked into the example applications.
 Many of the tools we have used are still in beta testing phase and there can be issues we don't
 spot immediately. Please help us improve this section by reporting them via GitHub.
 
-1. Project `not recognised as valid` by Keil Studio Cloud.
-
-   This can happen for several reasons:
-   - there are errors in the yml configuration files (csolution, cproject and/or clayer).
-     Please ensure the schema verification is aligned with the tool version being used.
-     For example, if csolution version 1.2.0 is being used, the schema check link on top
-     of the yml should reflect this. This is not a strict requirement, but can help catch
-     these errors quickly.
-   - the csolution yml file is not present at the root of the repository.
-   If both the above are not true, try refreshing the webpage and see if it works after refresh.
-
-2. Keil Studio Cloud cannot build the projects for Arm® Corstone™-310 target
-
-   Support for this depends on Arm Compiler 6.18 (or higher) being added to the backend. Until
-   Keil Studio Cloud supports this, you can choose to build for this target locally on your
-   machine (provided you have Arm Compiler version 6.18 or higher installed).
-
-3. While debugging the KWS application, the STM32F746G board does not recognise keywords at all.
+1. While debugging the KWS application, the STM32F746G board does not recognise keywords at all.
 
    This is because for a debug configuration the inference process is much slower. It therefore
    skips audio quite easily and the input data, as seen by the application, is not as
    continuous in time as it needs to be for decent detections. The audio capture and inference
    processes are running in parallel, so while the inference is going, or part of the application
    is at a breakpoint, it is quite likely for the audio buffer to be overwriting itself.
-
-4. Keil Studio Cloud does not allow changing the build type to `Release`
-
-   This is a known issue (at the time of writing this) and the feature to switch between build
-   types will be made available soon.
-
-5. Project does not build under Keil Studio Cloud.
-
-   This can happen if the Keil Studio Cloud backend tool versions are different to what we
-   test against. While we try to develop using the latest versions of the CMSIS toolbox, Keil
-   Studio Cloud can be using older versions. If you find an issue, please report it via
-   [GitHub](https://github.com/Arm-Examples/mlek-cmsis-pack-examples/issues).
-
-6. Issues running with Arm® Ethos™-U65 NPU on Keil Studio Cloud
-
-   Currently Keil Studio Cloud only supports running with the Arm® Ethos™-U55 on AVH
-   virtual targets.
-   You can build the project but will have to run it on your local machine on an
-   installation of the equivalent Fixed Virtual Platform containing Arm® Ethos™-U65 NPU.
